@@ -15,13 +15,13 @@ class CreateUrlsTable extends Migration
     {
         Schema::create('urls', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('website');
             $table->string('protocol');
             $table->string('domain');
             $table->string('category');
             $table->string('slug');
+            $table->string('url');
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DeleteColumnDomainUrls extends Migration
+class CreateArticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class DeleteColumnDomainUrls extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('urls', function(Blueprint $table){
-            $table->dropColumn('website');
-            $table->softDeletes();
+        Schema::create('articles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->int('url_id');
+            $table->text('article');
+            $table->timestamps();
         });
     }
 
@@ -27,10 +28,6 @@ class DeleteColumnDomainUrls extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('urls', function(Blueprint $table){
-            $table->string('website');
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('articles');
     }
 }
