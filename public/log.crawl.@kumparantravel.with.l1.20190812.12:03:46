@@ -1,0 +1,113 @@
+WARNING: combining -O with -r or -p will mean that all downloaded content
+will be placed in the single file you specified.
+
+--2019-08-12 12:03:46--  https://kumparan.com/@kumparantravel
+Resolving kumparan.com (kumparan.com)... 52.74.84.11, 52.76.226.21
+Connecting to kumparan.com (kumparan.com)|52.74.84.11|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 69172 (68K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 74% 1.44M 0s
+    50K .......... .......                                    100% 17.4M=0.03s
+
+2019-08-12 12:04:04 (1.89 MB/s) - '--spider' saved [69172/69172]
+
+Loading robots.txt; please ignore errors.
+--2019-08-12 12:04:04--  https://kumparan.com/robots.txt
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 64 [text/plain]
+Saving to: '--spider'
+
+     0K                                                       100% 2.90M=0s
+
+2019-08-12 12:04:04 (2.90 MB/s) - '--spider' saved [64/64]
+
+--2019-08-12 12:04:04--  https://kumparan.com/favicon.ico
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 15086 (15K) [image/x-icon]
+Saving to: '--spider'
+
+     0K .......... ....                                       100% 46.9K=0.3s
+
+2019-08-12 12:04:04 (46.9 KB/s) - '--spider' saved [15086/15086]
+
+--2019-08-12 12:04:04--  https://kumparan.com/manifest.json
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 808 [application/json]
+Saving to: '--spider'
+
+     0K                                                       100% 32.6M=0s
+
+2019-08-12 12:04:04 (32.6 MB/s) - '--spider' saved [808/808]
+
+--2019-08-12 12:04:04--  https://kumparan.com/logo-192.png
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 2845 (2.8K) [image/png]
+Saving to: '--spider'
+
+     0K ..                                                    100%  110M=0s
+
+2019-08-12 12:04:04 (110 MB/s) - '--spider' saved [2845/2845]
+
+--2019-08-12 12:04:04--  https://kumparan.com/
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 285896 (279K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 17%  816K 0s
+    50K .......... .......... .......... .......... .......... 35%  807K 0s
+   100K .......... .......... .......... .......... .......... 53%  816K 0s
+   150K .......... .......... .......... .......... .......... 71%  568K 0s
+   200K .......... .......... .......... .......... .......... 89% 1.37M 0s
+   250K .......... .......... .........                       100% 1.07M=0.3s
+
+2019-08-12 12:04:05 (834 KB/s) - '--spider' saved [285896/285896]
+
+--2019-08-12 12:04:05--  https://kumparan.com/trending
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 202350 (198K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 25%  808K 0s
+    50K .......... .......... .......... .......... .......... 50%  768K 0s
+   100K .......... .......... .......... .......... .......... 75%  467K 0s
+   150K .......... .......... .......... .......... .......   100%  571K=0.3s
+
+2019-08-12 12:04:05 (622 KB/s) - '--spider' saved [202350/202350]
+
+--2019-08-12 12:04:05--  https://kumparan.com/topic/kumparan-video
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 164322 (160K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 31%  807K 0s
+    50K .......... .......... .......... .......... .......... 62%  543K 0s
+   100K .......... .......... .......... .......... .......... 93%  540K 0s
+   150K ..........                                            100% 16.5M=0.2s
+
+2019-08-12 12:04:09 (649 KB/s) - '--spider' saved [164322/164322]
+
+--2019-08-12 12:04:09--  https://kumparan.com/topic/galeri-foto
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 178675 (174K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 28%  783K 0s
+    50K .......... .......... .......... .......... .......... 57%  555K 0s
+   100K .......... .......... .......... .......... .......... 85%  428K 0s
+   150K .......... .......... ....                            100%  793K=0.3s
+
+2019-08-12 12:04:09 (578 KB/s) - '--spider' saved [178675/178675]
+
+FINISHED --2019-08-12 12:04:09--
+Total wall clock time: 24s
+Downloaded: 9 files, 898K in 1.6s (579 KB/s)
