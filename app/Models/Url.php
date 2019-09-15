@@ -50,4 +50,9 @@ class Url extends Model
     public function checkNotDuplicateUrl(string $url){
         return Url::where('url', $url)->get()->isEmpty();        
     }
+    
+    public function article()
+    {
+        return $this->HasOne('App\Models\   ');
+    }
 }

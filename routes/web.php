@@ -15,4 +15,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/scrap', 'ScrapController@index');
+// Route::get('/scrap', 'ScrapController@index');
+Route::group(['prefix' => '/training'], function () {
+    Route::get('/addUrl', 'ArticleController@addUrl')->name('training.addUrl');
+    Route::post('/storeUrl', 'ArticleController@storeUrl')->name('training.storeUrl');
+    Route::get('/scrap', 'ArticleController@scrap')->name('training.scrap');
+    Route::post('/scrap', 'ArticleController@scrapContentKumparan')->name('training.scrapContentKumparan');
+    Route::get('/preprocess/{id}', 'ArticleController@preprocess')->name('training.preprocess');
+    Route::get('/saveCleaned/{id}', 'WordController@saveWordFromArticleClass')->name('training.saveCleaned');
+});
+
+Route::group(['prefix' => 'article'], function () {
+    Route::get('show/{id}', 'ArticleController@show')->name('article.show');
+});
+
+Route::delete('/category/destroy/{id}', 'CategoryController@deletePermanent')->name('category.destroy-permenent');
+Route::resource('/category', 'CategoryController');
+Route::resource('/classification', 'ClassificationController');
+Route::resource('/training', 'TrainingController');

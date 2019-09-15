@@ -67,12 +67,15 @@ class UrlModelsTest extends TestCase
 
     /** @test */
     public function success_save_to_database(){
+        // check save to db from file
+        $random_int = rand(0, 9);
         $url = new \App\Models\Url;
         $url->setUrlsFromBulkListUrl(public_path('log.scrap.@kumparanoto.with.l1.filtered'));
+        $this->assertTrue($url->saveToDB($url->getUrlWithIndex($random_int)));
 
-        $urlGenerator = \Faker\Factory::create();
-        $urlGenerator->imageUrl($urlGenerator->phoneNumber, $urlGenerator->phoneNumber, 'cats');
-        $this->assertTrue($url->saveToDB($urlGenerator->imageUrl($urlGenerator->phoneNumber, $urlGenerator->phoneNumber, 'cats')));
+        // $urlGenerator = \Faker\Factory::create();
+        // $urlGenerator->imageUrl($urlGenerator->phoneNumber, $urlGenerator->phoneNumber, 'cats');
+        // $this->assertTrue($url->saveToDB($urlGenerator->imageUrl($urlGenerator->phoneNumber, $urlGenerator->phoneNumber, 'cats')));
     }
 
     /** @test */
