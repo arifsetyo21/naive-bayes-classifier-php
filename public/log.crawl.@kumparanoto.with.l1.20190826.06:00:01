@@ -1,0 +1,508 @@
+WARNING: combining -O with -r or -p will mean that all downloaded content
+will be placed in the single file you specified.
+
+--2019-08-26 06:00:01--  https://kumparan.com/@kumparanoto
+Resolving kumparan.com (kumparan.com)... 52.221.77.94, 52.77.126.71
+Connecting to kumparan.com (kumparan.com)|52.221.77.94|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 171076 (167K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29% 1.50M 0s
+    50K .......... .......... .......... .......... .......... 59%  557K 0s
+   100K .......... .......... .......... .......... .......... 89% 20.6M 0s
+   150K .......... .......                                    100% 20.0M=0.1s
+
+2019-08-26 06:00:09 (1.30 MB/s) - '--spider' saved [171076/171076]
+
+Loading robots.txt; please ignore errors.
+--2019-08-26 06:00:09--  https://kumparan.com/robots.txt
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 64 [text/plain]
+Saving to: '--spider'
+
+     0K                                                       100% 2.44M=0s
+
+2019-08-26 06:00:10 (2.44 MB/s) - '--spider' saved [64/64]
+
+--2019-08-26 06:00:10--  https://kumparan.com/favicon.ico
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 15086 (15K) [image/x-icon]
+Saving to: '--spider'
+
+     0K .......... ....                                       100% 33.7M=0s
+
+2019-08-26 06:00:10 (33.7 MB/s) - '--spider' saved [15086/15086]
+
+--2019-08-26 06:00:10--  https://kumparan.com/manifest.json
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 808 [application/json]
+Saving to: '--spider'
+
+     0K                                                       100% 36.5M=0s
+
+2019-08-26 06:00:10 (36.5 MB/s) - '--spider' saved [808/808]
+
+--2019-08-26 06:00:10--  https://kumparan.com/logo-192.png
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 2845 (2.8K) [image/png]
+Saving to: '--spider'
+
+     0K ..                                                    100%  112M=0s
+
+2019-08-26 06:00:10 (112 MB/s) - '--spider' saved [2845/2845]
+
+--2019-08-26 06:00:10--  https://kumparan.com/
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 258262 (252K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 19%  784K 0s
+    50K .......... .......... .......... .......... .......... 39% 15.4M 0s
+   100K .......... .......... .......... .......... .......... 59%  955K 0s
+   150K .......... .......... .......... .......... .......... 79% 1.48M 0s
+   200K .......... .......... .......... .......... .......... 99% 1.58M 0s
+   250K ..                                                    100% 4213G=0.2s
+
+2019-08-26 06:00:10 (1.35 MB/s) - '--spider' saved [258262/258262]
+
+--2019-08-26 06:00:10--  https://kumparan.com/trending
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 189369 (185K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 27% 1.49M 0s
+    50K .......... .......... .......... .......... .......... 54% 1.56M 0s
+   100K .......... .......... .......... .......... .......... 81%  867K 0s
+   150K .......... .......... .......... ....                 100% 1.17M=0.2s
+
+2019-08-26 06:00:12 (1.20 MB/s) - '--spider' saved [189369/189369]
+
+--2019-08-26 06:00:12--  https://kumparan.com/topic/kumparan-video
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 160076 (156K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 31% 1.51M 0s
+    50K .......... .......... .......... .......... .......... 63%  853K 0s
+   100K .......... .......... .......... .......... .......... 95%  797K 0s
+   150K ......                                                100% 10.0M=0.2s
+
+2019-08-26 06:00:14 (1014 KB/s) - '--spider' saved [160076/160076]
+
+--2019-08-26 06:00:14--  https://kumparan.com/topic/galeri-foto
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 183139 (179K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 27% 1.60M 0s
+    50K .......... .......... .......... .......... .......... 55%  550K 0s
+   100K .......... .......... .......... .......... .......... 83%  564K 0s
+   150K .......... .......... ........                        100%  956K=0.2s
+
+2019-08-26 06:00:18 (745 KB/s) - '--spider' saved [183139/183139]
+
+--2019-08-26 06:00:18--  https://kumparan.com/channel/news
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 173399 (169K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  557K 0s
+    50K .......... .......... .......... .......... .......... 59% 1.48M 0s
+   100K .......... .......... .......... .......... .......... 88%  567K 0s
+   150K .......... .........                                  100% 5.91M=0.2s
+
+2019-08-26 06:00:21 (790 KB/s) - '--spider' saved [173399/173399]
+
+--2019-08-26 06:00:21--  https://kumparan.com/channel/entertainment
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 169498 (166K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30% 1.61M 0s
+    50K .......... .......... .......... .......... .......... 60%  547K 0s
+   100K .......... .......... .......... .......... .......... 90%  770K 0s
+   150K .......... .....                                      100%  621K=0.2s
+
+2019-08-26 06:00:23 (782 KB/s) - '--spider' saved [169498/169498]
+
+--2019-08-26 06:00:23--  https://kumparan.com/channel/mom
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 169588 (166K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30%  823K 0s
+    50K .......... .......... .......... .......... .......... 60%  558K 0s
+   100K .......... .......... .......... .......... .......... 90%  788K 0s
+   150K .......... .....                                      100%  522K=0.2s
+
+2019-08-26 06:00:30 (679 KB/s) - '--spider' saved [169588/169588]
+
+--2019-08-26 06:00:30--  https://kumparan.com/channel/food-travel
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 173730 (170K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  844K 0s
+    50K .......... .......... .......... .......... .......... 58%  555K 0s
+   100K .......... .......... .......... .......... .......... 88%  417K 0s
+   150K .......... .........                                  100% 6.30M=0.3s
+
+2019-08-26 06:00:33 (623 KB/s) - '--spider' saved [173730/173730]
+
+--2019-08-26 06:00:33--  https://kumparan.com/channel/tekno-sains
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 173400 (169K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  548K 0s
+    50K .......... .......... .......... .......... .......... 59%  801K 0s
+   100K .......... .......... .......... .......... .......... 88%  585K 0s
+   150K .......... .........                                  100% 2.95M=0.2s
+
+2019-08-26 06:00:35 (689 KB/s) - '--spider' saved [173400/173400]
+
+--2019-08-26 06:00:35--  https://kumparan.com/channel/otomotif
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 167996 (164K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30% 1.59M 0s
+    50K .......... .......... .......... .......... .......... 60%  538K 0s
+   100K .......... .......... .......... .......... .......... 91%  433K 0s
+   150K .......... ....                                       100% 10.9M=0.2s
+
+2019-08-26 06:00:40 (682 KB/s) - '--spider' saved [167996/167996]
+
+--2019-08-26 06:00:40--  https://kumparan.com/channel/woman
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 175329 (171K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  817K 0s
+    50K .......... .......... .......... .......... .......... 58%  533K 0s
+   100K .......... .......... .......... .......... .......... 87%  543K 0s
+   150K .......... .......... .                               100%  779K=0.3s
+
+2019-08-26 06:00:42 (624 KB/s) - '--spider' saved [175329/175329]
+
+--2019-08-26 06:00:42--  https://kumparan.com/channel/bola-sports
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 174271 (170K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29% 1.41M 0s
+    50K .......... .......... .......... .......... .......... 58%  410K 0s
+   100K .......... .......... .......... .......... .......... 88%  543K 0s
+   150K .......... ..........                                 100%  621K=0.3s
+
+2019-08-26 06:00:44 (606 KB/s) - '--spider' saved [174271/174271]
+
+--2019-08-26 06:00:44--  https://kumparan.com/channel/bisnis
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 168849 (165K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30%  545K 0s
+    50K .......... .......... .......... .......... .......... 60%  577K 0s
+   100K .......... .......... .......... .......... .......... 90% 1.34M 0s
+   150K .......... ....                                       100%  540K=0.2s
+
+2019-08-26 06:00:47 (680 KB/s) - '--spider' saved [168849/168849]
+
+--2019-08-26 06:00:47--  https://kumparan.com/promote/pria-gendong-jenazah
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 168460 (165K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30%  834K 0s
+    50K .......... .......... .......... .......... .......... 60%  798K 0s
+   100K .......... .......... .......... .......... .......... 91%  821K 0s
+   150K .......... ....                                       100% 11.7M=0.2s
+
+2019-08-26 06:00:48 (891 KB/s) - '--spider' saved [168460/168460]
+
+--2019-08-26 06:00:48--  https://kumparan.com/@kumparanoto/adu-spesifikasi-dan-fitur-bmw-x7-vs-audi-q8-1rjelaOhcBf
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 281657 (275K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 18%  836K 0s
+    50K .......... .......... .......... .......... .......... 36% 1.46M 0s
+   100K .......... .......... .......... .......... .......... 54%  841K 0s
+   150K .......... .......... .......... .......... .......... 72%  891K 0s
+   200K .......... .......... .......... .......... .......... 90% 1.36M 0s
+   250K .......... .......... .....                           100% 7.25M=0.2s
+
+2019-08-26 06:00:51 (1.08 MB/s) - '--spider' saved [281657/281657]
+
+--2019-08-26 06:00:51--  https://kumparan.com/@kumparanoto/response/adu-spesifikasi-dan-fitur-bmw-x7-vs-audi-q8-1rjelaOhcBf
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105532 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  806K 0s
+    50K .......... .......... .......... .......... .......... 97% 1.49M 0s
+   100K ...                                                   100% 5834G=0.09s
+
+2019-08-26 06:00:53 (1.06 MB/s) - '--spider' saved [105532/105532]
+
+--2019-08-26 06:00:53--  https://kumparan.com/@kumparanoto/daya-tarik-yamaha-rx-king-yang-tak-lekang-oleh-waktu-1rja2MjeJ7U
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 266283 (260K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 19% 1.66M 0s
+    50K .......... .......... .......... .......... .......... 38%  558K 0s
+   100K .......... .......... .......... .......... .......... 57%  559K 0s
+   150K .......... .......... .......... .......... .......... 76%  802K 0s
+   200K .......... .......... .......... .......... .......... 96%  836K 0s
+   250K ..........                                            100% 2.01M=0.3s
+
+2019-08-26 06:00:56 (775 KB/s) - '--spider' saved [266283/266283]
+
+--2019-08-26 06:00:56--  https://kumparan.com/@kumparanoto/response/daya-tarik-yamaha-rx-king-yang-tak-lekang-oleh-waktu-1rja2MjeJ7U
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105925 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  824K 0s
+    50K .......... .......... .......... .......... .......... 96%  847K 0s
+   100K ...                                                   100% 16.6M=0.1s
+
+2019-08-26 06:00:58 (863 KB/s) - '--spider' saved [105925/105925]
+
+--2019-08-26 06:00:58--  https://kumparan.com/@kumparanoto/pilih-honda-brio-baru-atau-jazz-bekas-1rjU0OuvWWK
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 254035 (248K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 20%  831K 0s
+    50K .......... .......... .......... .......... .......... 40% 1.42M 0s
+   100K .......... .......... .......... .......... .......... 60%  824K 0s
+   150K .......... .......... .......... .......... .......... 80%  855K 0s
+   200K .......... .......... .......... .......... ........  100% 1.17M=0.3s
+
+2019-08-26 06:01:00 (977 KB/s) - '--spider' saved [254035/254035]
+
+--2019-08-26 06:01:00--  https://kumparan.com/@kumparanoto/response/pilih-honda-brio-baru-atau-jazz-bekas-1rjU0OuvWWK
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105597 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.58M 0s
+    50K .......... .......... .......... .......... .......... 96%  840K 0s
+   100K ...                                                   100% 5955G=0.09s
+
+2019-08-26 06:01:01 (1.11 MB/s) - '--spider' saved [105597/105597]
+
+--2019-08-26 06:01:01--  https://kumparan.com/@kumparanoto/bertarif-rp-350-ribu-simak-manfaat-tes-dyno-1rjWrywGXjR
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 269226 (263K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 19% 1.55M 0s
+    50K .......... .......... .......... .......... .......... 38%  536K 0s
+   100K .......... .......... .......... .......... .......... 57%  542K 0s
+   150K .......... .......... .......... .......... .......... 76%  589K 0s
+   200K .......... .......... .......... .......... .......... 95%  745K 0s
+   250K .......... ..                                         100% 21.6M=0.4s
+
+2019-08-26 06:01:06 (711 KB/s) - '--spider' saved [269226/269226]
+
+--2019-08-26 06:01:06--  https://kumparan.com/@kumparanoto/response/bertarif-rp-350-ribu-simak-manfaat-tes-dyno-1rjWrywGXjR
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105750 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.54M 0s
+    50K .......... .......... .......... .......... .......... 96%  560K 0s
+   100K ...                                                   100% 6240G=0.1s
+
+2019-08-26 06:01:07 (853 KB/s) - '--spider' saved [105750/105750]
+
+--2019-08-26 06:01:07--  https://kumparan.com/@kumparanoto/catat-jenis-pelanggaran-yang-ditindak-selama-operasi-patuh-jaya-2019-1rjU0UaGq9C
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 237121 (232K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 21%  800K 0s
+    50K .......... .......... .......... .......... .......... 43%  544K 0s
+   100K .......... .......... .......... .......... .......... 64%  540K 0s
+   150K .......... .......... .......... .......... .......... 86%  539K 0s
+   200K .......... .......... .......... .                    100%  980K=0.4s
+
+2019-08-26 06:01:09 (623 KB/s) - '--spider' saved [237121/237121]
+
+--2019-08-26 06:01:09--  https://kumparan.com/@kumparanoto/response/catat-jenis-pelanggaran-yang-ditindak-selama-operasi-patuh-jaya-2019-1rjU0UaGq9C
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106251 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.49M 0s
+    50K .......... .......... .......... .......... .......... 96%  534K 0s
+   100K ...                                                   100% 7173G=0.1s
+
+2019-08-26 06:01:11 (821 KB/s) - '--spider' saved [106251/106251]
+
+--2019-08-26 06:01:11--  https://kumparan.com/@kumparanoto/4-jurus-menjaga-cat-mobil-supaya-tak-cepat-kusam-1rjGBbvIhZT
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 233236 (228K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 21%  520K 0s
+    50K .......... .......... .......... .......... .......... 43%  568K 0s
+   100K .......... .......... .......... .......... .......... 65%  418K 0s
+   150K .......... .......... .......... .......... .......... 87%  536K 0s
+   200K .......... .......... .......                         100%  961K=0.4s
+
+2019-08-26 06:01:13 (535 KB/s) - '--spider' saved [233236/233236]
+
+--2019-08-26 06:01:13--  https://kumparan.com/@kumparanoto/response/4-jurus-menjaga-cat-mobil-supaya-tak-cepat-kusam-1rjGBbvIhZT
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105693 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  798K 0s
+    50K .......... .......... .......... .......... .......... 96%  553K 0s
+   100K ...                                                   100% 6134G=0.2s
+
+2019-08-26 06:01:14 (675 KB/s) - '--spider' saved [105693/105693]
+
+--2019-08-26 06:01:14--  https://kumparan.com/@kumparanoto/investasi-hyundai-di-indonesia-tanpa-mitra-lokal-1rjC3ObtjsF
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 255319 (249K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 20%  517K 0s
+    50K .......... .......... .......... .......... .......... 40%  562K 0s
+   100K .......... .......... .......... .......... .......... 60%  398K 0s
+   150K .......... .......... .......... .......... .......... 80%  549K 0s
+   200K .......... .......... .......... .......... ......... 100%  789K=0.5s
+
+2019-08-26 06:01:16 (536 KB/s) - '--spider' saved [255319/255319]
+
+--2019-08-26 06:01:16--  https://kumparan.com/@kumparanoto/response/investasi-hyundai-di-indonesia-tanpa-mitra-lokal-1rjC3ObtjsF
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105820 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  811K 0s
+    50K .......... .......... .......... .......... .......... 96%  801K 0s
+   100K ...                                                   100% 6.67M=0.1s
+
+2019-08-26 06:01:17 (829 KB/s) - '--spider' saved [105820/105820]
+
+--2019-08-26 06:01:17--  https://kumparan.com/@kumparanoto/isuzu-mu-x-dan-d-max-jadi-mobilnya-tni-polri-1rjAl5L34Q3
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 237057 (232K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 21% 1.62M 0s
+    50K .......... .......... .......... .......... .......... 43%  555K 0s
+   100K .......... .......... .......... .......... .......... 64%  506K 0s
+   150K .......... .......... .......... .......... .......... 86%  802K 0s
+   200K .......... .......... .......... .                    100%  555K=0.3s
+
+2019-08-26 06:01:19 (685 KB/s) - '--spider' saved [237057/237057]
+
+--2019-08-26 06:01:19--  https://kumparan.com/@kumparanoto/response/isuzu-mu-x-dan-d-max-jadi-mobilnya-tni-polri-1rjAl5L34Q3
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105724 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.55M 0s
+    50K .......... .......... .......... .......... .......... 96%  555K 0s
+   100K ...                                                   100% 6191G=0.1s
+
+2019-08-26 06:01:20 (849 KB/s) - '--spider' saved [105724/105724]
+
+--2019-08-26 06:01:20--  https://kumparan.com/@kumparanoto/gaikindo-ajak-esemka-jadi-anggota-dan-duduk-di-kepengurusan-1rj7zm6pHxb
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 231785 (226K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 22%  541K 0s
+    50K .......... .......... .......... .......... .......... 44%  811K 0s
+   100K .......... .......... .......... .......... .......... 66%  565K 0s
+   150K .......... .......... .......... .......... .......... 88%  826K 0s
+   200K .......... .......... ......                          100%  915K=0.3s
+
+2019-08-26 06:01:26 (682 KB/s) - '--spider' saved [231785/231785]
+
+--2019-08-26 06:01:26--  https://kumparan.com/@kumparanoto/response/gaikindo-ajak-esemka-jadi-anggota-dan-duduk-di-kepengurusan-1rj7zm6pHxb
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105833 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.51M 0s
+    50K .......... .......... .......... .......... .......... 96%  559K 0s
+   100K ...                                                   100% 5.40M=0.1s
+
+2019-08-26 06:01:27 (845 KB/s) - '--spider' saved [105833/105833]
+
+--2019-08-26 06:01:27--  https://kumparan.com/@kumparanoto/deteksi-penyebab-mesin-mobil-brebet-1rj5DvxVtEk
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 230815 (225K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 22%  563K 0s
+    50K .......... .......... .......... .......... .......... 44%  802K 0s
+   100K .......... .......... .......... .......... .......... 66%  781K 0s
+   150K .......... .......... .......... .......... .......... 88%  828K 0s
+   200K .......... .......... .....                           100%  869K=0.3s
+
+2019-08-26 06:01:29 (739 KB/s) - '--spider' saved [230815/230815]
+
+--2019-08-26 06:01:29--  https://kumparan.com/@kumparanoto/response/deteksi-penyebab-mesin-mobil-brebet-1rj5DvxVtEk
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 104885 (102K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  542K 0s
+    50K .......... .......... .......... .......... .......... 97%  802K 0s
+   100K ..                                                    100% 4629G=0.2s
+
+2019-08-26 06:01:31 (663 KB/s) - '--spider' saved [104885/104885]
+
+FINISHED --2019-08-26 06:01:31--
+Total wall clock time: 1m 30s
+Downloaded: 39 files, 6.0M in 7.9s (769 KB/s)

@@ -1,0 +1,506 @@
+WARNING: combining -O with -r or -p will mean that all downloaded content
+will be placed in the single file you specified.
+
+--2019-08-25 18:10:28--  https://kumparan.com/@kumparansport
+Resolving kumparan.com (kumparan.com)... 54.169.141.16, 52.77.126.71
+Connecting to kumparan.com (kumparan.com)|54.169.141.16|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 175442 (171K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  532K 0s
+    50K .......... .......... .......... .......... .......... 58%  741K 0s
+   100K .......... .......... .......... .......... .......... 87%  546K 0s
+   150K .......... .......... .                               100% 4.97M=0.3s
+
+2019-08-25 18:10:37 (666 KB/s) - '--spider' saved [175442/175442]
+
+Loading robots.txt; please ignore errors.
+--2019-08-25 18:10:37--  https://kumparan.com/robots.txt
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 64 [text/plain]
+Saving to: '--spider'
+
+     0K                                                       100% 2.81M=0s
+
+2019-08-25 18:10:37 (2.81 MB/s) - '--spider' saved [64/64]
+
+--2019-08-25 18:10:37--  https://kumparan.com/favicon.ico
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 15086 (15K) [image/x-icon]
+Saving to: '--spider'
+
+     0K .......... ....                                       100% 33.8M=0s
+
+2019-08-25 18:10:37 (33.8 MB/s) - '--spider' saved [15086/15086]
+
+--2019-08-25 18:10:37--  https://kumparan.com/manifest.json
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 808 [application/json]
+Saving to: '--spider'
+
+     0K                                                       100% 35.8M=0s
+
+2019-08-25 18:10:39 (35.8 MB/s) - '--spider' saved [808/808]
+
+--2019-08-25 18:10:39--  https://kumparan.com/logo-192.png
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 2845 (2.8K) [image/png]
+Saving to: '--spider'
+
+     0K ..                                                    100%  125M=0s
+
+2019-08-25 18:10:39 (125 MB/s) - '--spider' saved [2845/2845]
+
+--2019-08-25 18:10:39--  https://kumparan.com/
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 315558 (308K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 16%  535K 0s
+    50K .......... .......... .......... .......... .......... 32%  539K 0s
+   100K .......... .......... .......... .......... .......... 48%  708K 0s
+   150K .......... .......... .......... .......... .......... 64%  771K 0s
+   200K .......... .......... .......... .......... .......... 81%  792K 0s
+   250K .......... .......... .......... .......... .......... 97%  797K 0s
+   300K ........                                              100%  414K=0.5s
+
+2019-08-25 18:10:40 (660 KB/s) - '--spider' saved [315558/315558]
+
+--2019-08-25 18:10:40--  https://kumparan.com/trending
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 183505 (179K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 27%  788K 0s
+    50K .......... .......... .......... .......... .......... 55%  546K 0s
+   100K .......... .......... .......... .......... .......... 83%  777K 0s
+   150K .......... .......... .........                       100%  938K=0.3s
+
+2019-08-25 18:10:41 (715 KB/s) - '--spider' saved [183505/183505]
+
+--2019-08-25 18:10:41--  https://kumparan.com/topic/kumparan-video
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 160086 (156K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 31%  539K 0s
+    50K .......... .......... .......... .......... .......... 63%  742K 0s
+   100K .......... .......... .......... .......... .......... 95%  551K 0s
+   150K ......                                                100% 4.34M=0.3s
+
+2019-08-25 18:10:44 (620 KB/s) - '--spider' saved [160086/160086]
+
+--2019-08-25 18:10:44--  https://kumparan.com/topic/galeri-foto
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 183117 (179K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 27% 1.36M 0s
+    50K .......... .......... .......... .......... .......... 55%  399K 0s
+   100K .......... .......... .......... .......... .......... 83%  521K 0s
+   150K .......... .......... ........                        100%  476K=0.3s
+
+2019-08-25 18:10:45 (563 KB/s) - '--spider' saved [183117/183117]
+
+--2019-08-25 18:10:45--  https://kumparan.com/channel/news
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 168671 (165K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30% 1.46M 0s
+    50K .......... .......... .......... .......... .......... 60%  327K 0s
+   100K .......... .......... .......... .......... .......... 91%  515K 0s
+   150K .......... ....                                       100% 13.7M=0.3s
+
+2019-08-25 18:10:46 (579 KB/s) - '--spider' saved [168671/168671]
+
+--2019-08-25 18:10:46--  https://kumparan.com/channel/entertainment
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 171417 (167K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  789K 0s
+    50K .......... .......... .......... .......... .......... 59%  405K 0s
+   100K .......... .......... .......... .......... .......... 89%  778K 0s
+   150K .......... .......                                    100%  552K=0.3s
+
+2019-08-25 18:10:48 (593 KB/s) - '--spider' saved [171417/171417]
+
+--2019-08-25 18:10:48--  https://kumparan.com/channel/mom
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 169624 (166K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30%  528K 0s
+    50K .......... .......... .......... .......... .......... 60%  766K 0s
+   100K .......... .......... .......... .......... .......... 90%  776K 0s
+   150K .......... .....                                      100%  594K=0.3s
+
+2019-08-25 18:10:50 (660 KB/s) - '--spider' saved [169624/169624]
+
+--2019-08-25 18:10:50--  https://kumparan.com/channel/food-travel
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 174259 (170K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  546K 0s
+    50K .......... .......... .......... .......... .......... 58%  755K 0s
+   100K .......... .......... .......... .......... .......... 88%  548K 0s
+   150K .......... ..........                                 100%  663K=0.3s
+
+2019-08-25 18:10:52 (609 KB/s) - '--spider' saved [174259/174259]
+
+--2019-08-25 18:10:52--  https://kumparan.com/channel/tekno-sains
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 175171 (171K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29% 7.47M 0s
+    50K .......... .......... .......... .......... .......... 58%  387K 0s
+   100K .......... .......... .......... .......... .......... 87%  518K 0s
+   150K .......... .......... .                               100%  669K=0.3s
+
+2019-08-25 18:10:54 (649 KB/s) - '--spider' saved [175171/175171]
+
+--2019-08-25 18:10:54--  https://kumparan.com/channel/otomotif
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 168601 (165K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30% 1.30M 0s
+    50K .......... .......... .......... .......... .......... 60%  395K 0s
+   100K .......... .......... .......... .......... .......... 91%  428K 0s
+   150K .......... ....                                       100% 1.58M=0.3s
+
+2019-08-25 18:10:56 (568 KB/s) - '--spider' saved [168601/168601]
+
+--2019-08-25 18:10:56--  https://kumparan.com/channel/woman
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 173103 (169K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  806K 0s
+    50K .......... .......... .......... .......... .......... 59%  403K 0s
+   100K .......... .......... .......... .......... .......... 88%  518K 0s
+   150K .......... .........                                  100%  570K=0.3s
+
+2019-08-25 18:10:58 (535 KB/s) - '--spider' saved [173103/173103]
+
+--2019-08-25 18:10:58--  https://kumparan.com/channel/bola-sports
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 173664 (170K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  539K 0s
+    50K .......... .......... .......... .......... .......... 58%  785K 0s
+   100K .......... .......... .......... .......... .......... 88%  524K 0s
+   150K .......... .........                                  100% 42.6M=0.3s
+
+2019-08-25 18:11:00 (672 KB/s) - '--spider' saved [173664/173664]
+
+--2019-08-25 18:11:00--  https://kumparan.com/channel/bisnis
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 167984 (164K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30% 1.53M 0s
+    50K .......... .......... .......... .......... .......... 60%  409K 0s
+   100K .......... .......... .......... .......... .......... 91%  747K 0s
+   150K .......... ....                                       100% 13.2M=0.2s
+
+2019-08-25 18:11:04 (739 KB/s) - '--spider' saved [167984/167984]
+
+--2019-08-25 18:11:04--  https://kumparan.com/promote/pria-gendong-jenazah
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 137586 (134K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 37%  552K 0s
+    50K .......... .......... .......... .......... .......... 74%  489K 0s
+   100K .......... .......... .......... ....                 100%  572K=0.3s
+
+2019-08-25 18:11:05 (531 KB/s) - '--spider' saved [137586/137586]
+
+--2019-08-25 18:11:05--  https://kumparan.com/@kumparansport/foto-balap-sepeda-bmx-di-kompetisi-bearcofest-2019-1rjZ6vG4GXJ
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 257705 (252K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 19%  548K 0s
+    50K .......... .......... .......... .......... .......... 39%  535K 0s
+   100K .......... .......... .......... .......... .......... 59%  754K 0s
+   150K .......... .......... .......... .......... .......... 79%  402K 0s
+   200K .......... .......... .......... .......... .......... 99%  795K 0s
+   250K .                                                     100% 3176G=0.4s
+
+2019-08-25 18:11:10 (574 KB/s) - '--spider' saved [257705/257705]
+
+--2019-08-25 18:11:10--  https://kumparan.com/@kumparansport/response/foto-balap-sepeda-bmx-di-kompetisi-bearcofest-2019-1rjZ6vG4GXJ
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106713 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 47% 1.51M 0s
+    50K .......... .......... .......... .......... .......... 95%  414K 0s
+   100K ....                                                  100% 7.03M=0.2s
+
+2019-08-25 18:11:15 (678 KB/s) - '--spider' saved [106713/106713]
+
+--2019-08-25 18:11:15--  https://kumparan.com/@kumparansport/kejuaraan-dunia-ahsan-hendra-lolos-ke-final-usai-kalahkan-fajar-rian-1rjMaBfUbj3
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 236773 (231K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 21%  792K 0s
+    50K .......... .......... .......... .......... .......... 43%  409K 0s
+   100K .......... .......... .......... .......... .......... 64%  516K 0s
+   150K .......... .......... .......... .......... .......... 86%  509K 0s
+   200K .......... .......... .......... .                    100%  988K=0.4s
+
+2019-08-25 18:11:17 (561 KB/s) - '--spider' saved [236773/236773]
+
+--2019-08-25 18:11:17--  https://kumparan.com/@kumparansport/response/kejuaraan-dunia-ahsan-hendra-lolos-ke-final-usai-kalahkan-fajar-rian-1rjMaBfUbj3
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106968 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 47%  397K 0s
+    50K .......... .......... .......... .......... .......... 95%  315K 0s
+   100K ....                                                  100%  978K=0.3s
+
+2019-08-25 18:11:18 (361 KB/s) - '--spider' saved [106968/106968]
+
+--2019-08-25 18:11:18--  https://kumparan.com/@kumparansport/kejuaraan-dunia-greysia-apriyani-ditaklukkan-ganda-nomor-satu-dunia-1rjJsQXIPbB
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 239478 (234K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 21%  393K 0s
+    50K .......... .......... .......... .......... .......... 42%  387K 0s
+   100K .......... .......... .......... .......... .......... 64%  407K 0s
+   150K .......... .......... .......... .......... .......... 85%  744K 0s
+   200K .......... .......... .......... ...                  100%  563K=0.5s
+
+2019-08-25 18:11:21 (462 KB/s) - '--spider' saved [239478/239478]
+
+--2019-08-25 18:11:21--  https://kumparan.com/@kumparansport/response/kejuaraan-dunia-greysia-apriyani-ditaklukkan-ganda-nomor-satu-dunia-1rjJsQXIPbB
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105878 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  818K 0s
+    50K .......... .......... .......... .......... .......... 96%  769K 0s
+   100K ...                                                   100% 6.80M=0.1s
+
+2019-08-25 18:11:22 (817 KB/s) - '--spider' saved [105878/105878]
+
+--2019-08-25 18:11:22--  https://kumparan.com/@kumparansport/motogp-inggris-marquez-start-terdepan-rossi-di-belakangnya-1rjHbbFIBLd
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 229960 (225K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 22% 1.47M 0s
+    50K .......... .......... .......... .......... .......... 44%  402K 0s
+   100K .......... .......... .......... .......... .......... 66%  500K 0s
+   150K .......... .......... .......... .......... .......... 89%  418K 0s
+   200K .......... .......... ....                            100% 2.27M=0.4s
+
+2019-08-25 18:11:25 (579 KB/s) - '--spider' saved [229960/229960]
+
+--2019-08-25 18:11:25--  https://kumparan.com/@kumparansport/response/motogp-inggris-marquez-start-terdepan-rossi-di-belakangnya-1rjHbbFIBLd
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105252 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.50M 0s
+    50K .......... .......... .......... .......... .......... 97%  413K 0s
+   100K ..                                                    100% 5312G=0.2s
+
+2019-08-25 18:11:26 (668 KB/s) - '--spider' saved [105252/105252]
+
+--2019-08-25 18:11:26--  https://kumparan.com/@kumparansport/fp3-motogp-inggris-kalahkan-rossi-quartararo-jadi-yang-tercepat-1rjDK3ZcnjP
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 239182 (234K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 21%  538K 0s
+    50K .......... .......... .......... .......... .......... 42%  514K 0s
+   100K .......... .......... .......... .......... .......... 64%  512K 0s
+   150K .......... .......... .......... .......... .......... 85%  430K 0s
+   200K .......... .......... .......... ...                  100% 1.04M=0.4s
+
+2019-08-25 18:11:31 (536 KB/s) - '--spider' saved [239182/239182]
+
+--2019-08-25 18:11:31--  https://kumparan.com/@kumparansport/response/fp3-motogp-inggris-kalahkan-rossi-quartararo-jadi-yang-tercepat-1rjDK3ZcnjP
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105602 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  775K 0s
+    50K .......... .......... .......... .......... .......... 96%  564K 0s
+   100K ...                                                   100% 5964G=0.2s
+
+2019-08-25 18:11:33 (673 KB/s) - '--spider' saved [105602/105602]
+
+--2019-08-25 18:11:33--  https://kumparan.com/@kumparansport/bersua-di-semifinal-fajar-rian-lempar-pujian-kepada-ahsan-hendra-1rjAxQySH7Z
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 230998 (226K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 22%  767K 0s
+    50K .......... .......... .......... .......... .......... 44%  529K 0s
+   100K .......... .......... .......... .......... .......... 66%  762K 0s
+   150K .......... .......... .......... .......... .......... 88%  573K 0s
+   200K .......... .......... .....                           100% 3.94M=0.3s
+
+2019-08-25 18:11:36 (707 KB/s) - '--spider' saved [230998/230998]
+
+--2019-08-25 18:11:36--  https://kumparan.com/@kumparansport/response/bersua-di-semifinal-fajar-rian-lempar-pujian-kepada-ahsan-hendra-1rjAxQySH7Z
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105540 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.49M 0s
+    50K .......... .......... .......... .......... .......... 97%  549K 0s
+   100K ...                                                   100% 5849G=0.1s
+
+2019-08-25 18:11:37 (832 KB/s) - '--spider' saved [105540/105540]
+
+--2019-08-25 18:11:37--  https://kumparan.com/@kumparansport/betapa-bangga-greysia-apriyani-lolos-ke-semifinal-kejuaraan-dunia-1rj80rho3AK
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 246075 (240K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 20%  525K 0s
+    50K .......... .......... .......... .......... .......... 41%  400K 0s
+   100K .......... .......... .......... .......... .......... 62%  526K 0s
+   150K .......... .......... .......... .......... .......... 83%  405K 0s
+   200K .......... .......... .......... ..........           100% 1.08M=0.5s
+
+2019-08-25 18:11:40 (506 KB/s) - '--spider' saved [246075/246075]
+
+--2019-08-25 18:11:40--  https://kumparan.com/@kumparansport/response/betapa-bangga-greysia-apriyani-lolos-ke-semifinal-kejuaraan-dunia-1rj80rho3AK
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105809 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.68M 0s
+    50K .......... .......... .......... .......... .......... 96%  499K 0s
+   100K ...                                                   100% 6.73M=0.1s
+
+2019-08-25 18:11:41 (797 KB/s) - '--spider' saved [105809/105809]
+
+--2019-08-25 18:11:41--  https://kumparan.com/@kumparansport/kejuaraan-dunia-cedera-menghambat-langkah-jonatan-christie-1rj7tUFDzR0
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 243006 (237K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 21%  522K 0s
+    50K .......... .......... .......... .......... .......... 42%  563K 0s
+   100K .......... .......... .......... .......... .......... 63%  747K 0s
+   150K .......... .......... .......... .......... .......... 84%  801K 0s
+   200K .......... .......... .......... .......              100% 1.10M=0.3s
+
+2019-08-25 18:11:44 (684 KB/s) - '--spider' saved [243006/243006]
+
+--2019-08-25 18:11:44--  https://kumparan.com/@kumparansport/response/kejuaraan-dunia-cedera-menghambat-langkah-jonatan-christie-1rj7tUFDzR0
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105117 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.65M 0s
+    50K .......... .......... .......... .......... .......... 97%  758K 0s
+   100K ..                                                    100% 5061G=0.1s
+
+2019-08-25 18:11:52 (1.05 MB/s) - '--spider' saved [105117/105117]
+
+--2019-08-25 18:11:52--  https://kumparan.com/@kumparansport/kejuaraan-dunia-fajar-rian-capai-semifinal-usai-kalahkan-wakil-korsel-1rj0vXHaqHS
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 227206 (222K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 22% 1.41M 0s
+    50K .......... .......... .......... .......... .......... 45%  556K 0s
+   100K .......... .......... .......... .......... .......... 67%  520K 0s
+   150K .......... .......... .......... .......... .......... 90%  418K 0s
+   200K .......... .......... .                               100% 4.09M=0.3s
+
+2019-08-25 18:11:54 (642 KB/s) - '--spider' saved [227206/227206]
+
+--2019-08-25 18:11:54--  https://kumparan.com/@kumparansport/response/kejuaraan-dunia-fajar-rian-capai-semifinal-usai-kalahkan-wakil-korsel-1rj0vXHaqHS
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 107149 (105K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 47% 14.1M 0s
+    50K .......... .......... .......... .......... .......... 95%  408K 0s
+   100K ....                                                  100% 8.04M=0.1s
+
+2019-08-25 18:11:56 (826 KB/s) - '--spider' saved [107149/107149]
+
+--2019-08-25 18:11:56--  https://kumparan.com/@kumparansport/kejuaraan-dunia-ahsan-hendra-genggam-tiket-semifinal-1riy2JTd1I2
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 229767 (224K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 22%  397K 0s
+    50K .......... .......... .......... .......... .......... 44%  540K 0s
+   100K .......... .......... .......... .......... .......... 66%  510K 0s
+   150K .......... .......... .......... .......... .......... 89%  397K 0s
+   200K .......... .......... ....                            100% 1018K=0.5s
+
+2019-08-25 18:12:01 (481 KB/s) - '--spider' saved [229767/229767]
+
+--2019-08-25 18:12:01--  https://kumparan.com/@kumparansport/response/kejuaraan-dunia-ahsan-hendra-genggam-tiket-semifinal-1riy2JTd1I2
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106634 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 14.1M 0s
+    50K .......... .......... .......... .......... .......... 96%  521K 0s
+   100K ....                                                  100%  167K=0.1s
+
+2019-08-25 18:12:06 (839 KB/s) - '--spider' saved [106634/106634]
+
+FINISHED --2019-08-25 18:12:06--
+Total wall clock time: 1m 38s
+Downloaded: 39 files, 5.9M in 9.8s (611 KB/s)

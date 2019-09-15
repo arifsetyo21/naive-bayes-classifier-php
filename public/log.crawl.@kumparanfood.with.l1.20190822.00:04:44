@@ -1,0 +1,514 @@
+WARNING: combining -O with -r or -p will mean that all downloaded content
+will be placed in the single file you specified.
+
+--2019-08-22 00:04:44--  https://kumparan.com/@kumparanfood
+Resolving kumparan.com (kumparan.com)... 52.77.126.71, 52.76.226.21
+Connecting to kumparan.com (kumparan.com)|52.77.126.71|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 173832 (170K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  556K 0s
+    50K .......... .......... .......... .......... .......... 58%  561K 0s
+   100K .......... .......... .......... .......... .......... 88%  806K 0s
+   150K .......... .........                                  100%  691K=0.3s
+
+2019-08-22 00:04:47 (629 KB/s) - '--spider' saved [173832/173832]
+
+Loading robots.txt; please ignore errors.
+--2019-08-22 00:04:47--  https://kumparan.com/robots.txt
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 64 [text/plain]
+Saving to: '--spider'
+
+     0K                                                       100% 2.58M=0s
+
+2019-08-22 00:04:50 (2.58 MB/s) - '--spider' saved [64/64]
+
+--2019-08-22 00:04:50--  https://kumparan.com/favicon.ico
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 15086 (15K) [image/x-icon]
+Saving to: '--spider'
+
+     0K .......... ....                                       100% 34.1M=0s
+
+2019-08-22 00:04:50 (34.1 MB/s) - '--spider' saved [15086/15086]
+
+--2019-08-22 00:04:50--  https://kumparan.com/manifest.json
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 808 [application/json]
+Saving to: '--spider'
+
+     0K                                                       100% 41.0M=0s
+
+2019-08-22 00:04:51 (41.0 MB/s) - '--spider' saved [808/808]
+
+--2019-08-22 00:04:51--  https://kumparan.com/logo-192.png
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 2845 (2.8K) [image/png]
+Saving to: '--spider'
+
+     0K ..                                                    100%  112M=0s
+
+2019-08-22 00:04:51 (112 MB/s) - '--spider' saved [2845/2845]
+
+--2019-08-22 00:04:51--  https://kumparan.com/
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 322632 (315K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 15%  847K 0s
+    50K .......... .......... .......... .......... .......... 31%  825K 0s
+   100K .......... .......... .......... .......... .......... 47%  842K 0s
+   150K .......... .......... .......... .......... .......... 63%  833K 0s
+   200K .......... .......... .......... .......... .......... 79% 1.48M 0s
+   250K .......... .......... .......... .......... .......... 95%  886K 0s
+   300K .......... .....                                      100% 14.4M=0.3s
+
+2019-08-22 00:04:51 (956 KB/s) - '--spider' saved [322632/322632]
+
+--2019-08-22 00:04:51--  https://kumparan.com/trending
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 192911 (188K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 26%  848K 0s
+    50K .......... .......... .......... .......... .......... 53%  822K 0s
+   100K .......... .......... .......... .......... .......... 79%  781K 0s
+   150K .......... .......... .......... ........             100%  692K=0.2s
+
+2019-08-22 00:04:52 (787 KB/s) - '--spider' saved [192911/192911]
+
+--2019-08-22 00:04:52--  https://kumparan.com/topic/kumparan-video
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 167182 (163K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30%  820K 0s
+    50K .......... .......... .......... .......... .......... 61%  571K 0s
+   100K .......... .......... .......... .......... .......... 91%  550K 0s
+   150K .......... ...                                        100%  445K=0.3s
+
+2019-08-22 00:04:53 (606 KB/s) - '--spider' saved [167182/167182]
+
+--2019-08-22 00:04:53--  https://kumparan.com/topic/galeri-foto
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 76045 (74K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 67%  831K 0s
+    50K .......... .......... ....                            100%  798K=0.09s
+
+2019-08-22 00:05:00 (820 KB/s) - '--spider' saved [76045/76045]
+
+--2019-08-22 00:05:00--  https://kumparan.com/channel/news
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 173864 (170K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  552K 0s
+    50K .......... .......... .......... .......... .......... 58%  559K 0s
+   100K .......... .......... .......... .......... .......... 88%  791K 0s
+   150K .......... .........                                  100%  688K=0.3s
+
+2019-08-22 00:05:02 (624 KB/s) - '--spider' saved [173864/173864]
+
+--2019-08-22 00:05:02--  https://kumparan.com/channel/entertainment
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 169897 (166K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30% 1.46M 0s
+    50K .......... .......... .......... .......... .......... 60%  554K 0s
+   100K .......... .......... .......... .......... .......... 90%  547K 0s
+   150K .......... .....                                      100%  555K=0.2s
+
+2019-08-22 00:05:03 (681 KB/s) - '--spider' saved [169897/169897]
+
+--2019-08-22 00:05:03--  https://kumparan.com/channel/mom
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 172426 (168K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29% 1.55M 0s
+    50K .......... .......... .......... .......... .......... 59%  417K 0s
+   100K .......... .......... .......... .......... .......... 89%  548K 0s
+   150K .......... ........                                   100%  607K=0.3s
+
+2019-08-22 00:05:08 (617 KB/s) - '--spider' saved [172426/172426]
+
+--2019-08-22 00:05:08--  https://kumparan.com/channel/food-travel
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 173461 (169K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  839K 0s
+    50K .......... .......... .......... .......... .......... 59%  418K 0s
+   100K .......... .......... .......... .......... .......... 88%  418K 0s
+   150K .......... .........                                  100% 17.6M=0.3s
+
+2019-08-22 00:05:11 (565 KB/s) - '--spider' saved [173461/173461]
+
+--2019-08-22 00:05:11--  https://kumparan.com/channel/tekno-sains
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 175115 (171K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  565K 0s
+    50K .......... .......... .......... .......... .......... 58%  549K 0s
+   100K .......... .......... .......... .......... .......... 87%  545K 0s
+   150K .......... .......... .                               100%  692K=0.3s
+
+2019-08-22 00:05:11 (567 KB/s) - '--spider' saved [175115/175115]
+
+--2019-08-22 00:05:11--  https://kumparan.com/channel/otomotif
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 167303 (163K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 30%  837K 0s
+    50K .......... .......... .......... .......... .......... 61%  417K 0s
+   100K .......... .......... .......... .......... .......... 91%  540K 0s
+   150K .......... ...                                        100%  489K=0.3s
+
+2019-08-22 00:05:14 (545 KB/s) - '--spider' saved [167303/167303]
+
+--2019-08-22 00:05:14--  https://kumparan.com/channel/woman
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 171150 (167K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  678K 0s
+    50K .......... .......... .......... .......... .......... 59%  418K 0s
+   100K .......... .......... .......... .......... .......... 89%  541K 0s
+   150K .......... .......                                    100% 14.0M=0.3s
+
+2019-08-22 00:05:18 (583 KB/s) - '--spider' saved [171150/171150]
+
+--2019-08-22 00:05:18--  https://kumparan.com/channel/bola-sports
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 172947 (169K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29%  558K 0s
+    50K .......... .......... .......... .......... .......... 59%  814K 0s
+   100K .......... .......... .......... .......... .......... 88%  819K 0s
+   150K .......... ........                                   100%  651K=0.2s
+
+2019-08-22 00:05:19 (700 KB/s) - '--spider' saved [172947/172947]
+
+--2019-08-22 00:05:19--  https://kumparan.com/channel/bisnis
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 174200 (170K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29% 1.60M 0s
+    50K .......... .......... .......... .......... .......... 58%  555K 0s
+   100K .......... .......... .......... .......... .......... 88%  435K 0s
+   150K .......... ..........                                 100% 3.98M=0.2s
+
+2019-08-22 00:05:26 (707 KB/s) - '--spider' saved [174200/174200]
+
+--2019-08-22 00:05:26--  https://kumparan.com/promote/spider-man-hengkang
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 176506 (172K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 29% 1.56M 0s
+    50K .......... .......... .......... .......... .......... 58%  427K 0s
+   100K .......... .......... .......... .......... .......... 87%  544K 0s
+   150K .......... .......... ..                              100%  759K=0.3s
+
+2019-08-22 00:05:26 (639 KB/s) - '--spider' saved [176506/176506]
+
+--2019-08-22 00:05:26--  https://kumparan.com/@kumparanfood/nyobain-ceviche-dengan-susu-macan-ala-peru-1ri23Zcn5YW
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 297969 (291K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 17%  548K 0s
+    50K .......... .......... .......... .......... .......... 34%  418K 0s
+   100K .......... .......... .......... .......... .......... 51%  550K 0s
+   150K .......... .......... .......... .......... .......... 68%  418K 0s
+   200K .......... .......... .......... .......... .......... 85%  574K 0s
+   250K .......... .......... .......... ..........           100% 1.25M=0.5s
+
+2019-08-22 00:05:33 (539 KB/s) - '--spider' saved [297969/297969]
+
+--2019-08-22 00:05:33--  https://kumparan.com/@kumparanfood/response/nyobain-ceviche-dengan-susu-macan-ala-peru-1ri23Zcn5YW
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105478 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.56M 0s
+    50K .......... .......... .......... .......... .......... 97%  563K 0s
+   100K ...                                                   100% 5733G=0.1s
+
+2019-08-22 00:05:38 (857 KB/s) - '--spider' saved [105478/105478]
+
+--2019-08-22 00:05:38--  https://kumparan.com/@kumparanfood/5-adegan-makan-di-film-spider-man-yang-bakal-dirindukan-1rhyV774PQV
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 287812 (281K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 17%  563K 0s
+    50K .......... .......... .......... .......... .......... 35%  565K 0s
+   100K .......... .......... .......... .......... .......... 53%  821K 0s
+   150K .......... .......... .......... .......... .......... 71%  555K 0s
+   200K .......... .......... .......... .......... .......... 88% 1.48M 0s
+   250K .......... .......... .......... .                    100% 1.01M=0.4s
+
+2019-08-22 00:05:42 (718 KB/s) - '--spider' saved [287812/287812]
+
+--2019-08-22 00:05:42--  https://kumparan.com/@kumparanfood/response/5-adegan-makan-di-film-spider-man-yang-bakal-dirindukan-1rhyV774PQV
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 104999 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  549K 0s
+    50K .......... .......... .......... .......... .......... 97%  820K 0s
+   100K ..                                                    100% 4841G=0.2s
+
+2019-08-22 00:05:48 (675 KB/s) - '--spider' saved [104999/104999]
+
+--2019-08-22 00:05:48--  https://kumparan.com/@kumparanfood/5-makanan-yang-sering-dibenci-tapi-punya-banyak-manfaat-1rhyZieeFmH
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 265411 (259K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 19%  557K 0s
+    50K .......... .......... .......... .......... .......... 38%  553K 0s
+   100K .......... .......... .......... .......... .......... 57%  561K 0s
+   150K .......... .......... .......... .......... .......... 77%  789K 0s
+   200K .......... .......... .......... .......... .......... 96%  571K 0s
+   250K .........                                             100% 15.9M=0.4s
+
+2019-08-22 00:05:51 (616 KB/s) - '--spider' saved [265411/265411]
+
+--2019-08-22 00:05:51--  https://kumparan.com/@kumparanfood/response/5-makanan-yang-sering-dibenci-tapi-punya-banyak-manfaat-1rhyZieeFmH
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106166 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.64M 0s
+    50K .......... .......... .......... .......... .......... 96%  555K 0s
+   100K ...                                                   100% 7015G=0.1s
+
+2019-08-22 00:05:55 (866 KB/s) - '--spider' saved [106166/106166]
+
+--2019-08-22 00:05:55--  https://kumparan.com/@kumparanfood/7-manfaat-sirsak-si-asam-manis-yang-menyehatkan-1rhxz6FtHB0
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 279320 (273K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 18%  832K 0s
+    50K .......... .......... .......... .......... .......... 36%  539K 0s
+   100K .......... .......... .......... .......... .......... 54%  422K 0s
+   150K .......... .......... .......... .......... .......... 73%  546K 0s
+   200K .......... .......... .......... .......... .......... 91%  801K 0s
+   250K .......... .......... ..                              100%  767K=0.5s
+
+2019-08-22 00:05:57 (600 KB/s) - '--spider' saved [279320/279320]
+
+--2019-08-22 00:05:57--  https://kumparan.com/@kumparanfood/response/7-manfaat-sirsak-si-asam-manis-yang-menyehatkan-1rhxz6FtHB0
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106064 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.55M 0s
+    50K .......... .......... .......... .......... .......... 96%  563K 0s
+   100K ...                                                   100% 6825G=0.1s
+
+2019-08-22 00:05:58 (861 KB/s) - '--spider' saved [106064/106064]
+
+--2019-08-22 00:05:58--  https://kumparan.com/@kumparanfood/5-tips-menjaga-kesehatan-pencernaan-saat-traveling-1rhwk8wP2V9
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 261358 (255K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 19%  831K 0s
+    50K .......... .......... .......... .......... .......... 39%  418K 0s
+   100K .......... .......... .......... .......... .......... 58%  541K 0s
+   150K .......... .......... .......... .......... .......... 78%  566K 0s
+   200K .......... .......... .......... .......... .......... 97%  556K 0s
+   250K .....                                                 100% 9980G=0.5s
+
+2019-08-22 00:06:05 (566 KB/s) - '--spider' saved [261358/261358]
+
+--2019-08-22 00:06:05--  https://kumparan.com/@kumparanfood/response/5-tips-menjaga-kesehatan-pencernaan-saat-traveling-1rhwk8wP2V9
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105583 (103K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.59M 0s
+    50K .......... .......... .......... .......... .......... 96%  556K 0s
+   100K ...                                                   100% 5929G=0.1s
+
+2019-08-22 00:06:10 (855 KB/s) - '--spider' saved [105583/105583]
+
+--2019-08-22 00:06:10--  https://kumparan.com/@kumparanfood/5-makanan-yang-bisa-bikin-panjang-umur-1rhfrJRMFtL
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 275170 (269K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 18%  564K 0s
+    50K .......... .......... .......... .......... .......... 37%  802K 0s
+   100K .......... .......... .......... .......... .......... 55%  573K 0s
+   150K .......... .......... .......... .......... .......... 74%  808K 0s
+   200K .......... .......... .......... .......... .......... 93%  810K 0s
+   250K .......... ........                                   100% 18.4M=0.4s
+
+2019-08-22 00:06:12 (740 KB/s) - '--spider' saved [275170/275170]
+
+--2019-08-22 00:06:12--  https://kumparan.com/@kumparanfood/response/5-makanan-yang-bisa-bikin-panjang-umur-1rhfrJRMFtL
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 105986 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  846K 0s
+    50K .......... .......... .......... .......... .......... 96%  793K 0s
+   100K ...                                                   100% 6.95M=0.1s
+
+2019-08-22 00:06:14 (843 KB/s) - '--spider' saved [105986/105986]
+
+--2019-08-22 00:06:14--  https://kumparan.com/@kumparanfood/ayam-geprek-si-boss-padukan-sambal-bawang-dan-balado-1rhdWIUpOND
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 256285 (250K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 19%  824K 0s
+    50K .......... .......... .......... .......... .......... 39%  548K 0s
+   100K .......... .......... .......... .......... .......... 59%  418K 0s
+   150K .......... .......... .......... .......... .......... 79%  559K 0s
+   200K .......... .......... .......... .......... .......... 99%  810K 0s
+   250K                                                       100%  531G=0.4s
+
+2019-08-22 00:06:17 (592 KB/s) - '--spider' saved [256285/256285]
+
+--2019-08-22 00:06:17--  https://kumparan.com/@kumparanfood/response/ayam-geprek-si-boss-padukan-sambal-bawang-dan-balado-1rhdWIUpOND
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106171 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48% 1.57M 0s
+    50K .......... .......... .......... .......... .......... 96%  424K 0s
+   100K ...                                                   100% 7024G=0.1s
+
+2019-08-22 00:06:18 (696 KB/s) - '--spider' saved [106171/106171]
+
+--2019-08-22 00:06:18--  https://kumparan.com/@kumparanfood/5-makanan-yang-cocok-dimakan-saat-kencan-pertama-1rhZgnw0cJc
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 264322 (258K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 19%  563K 0s
+    50K .......... .......... .......... .......... .......... 38%  563K 0s
+   100K .......... .......... .......... .......... .......... 58%  555K 0s
+   150K .......... .......... .......... .......... .......... 77%  814K 0s
+   200K .......... .......... .......... .......... .......... 96%  820K 0s
+   250K ........                                              100% 13.4M=0.4s
+
+2019-08-22 00:06:21 (661 KB/s) - '--spider' saved [264322/264322]
+
+--2019-08-22 00:06:21--  https://kumparan.com/@kumparanfood/response/5-makanan-yang-cocok-dimakan-saat-kencan-pertama-1rhZgnw0cJc
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106004 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  836K 0s
+    50K .......... .......... .......... .......... .......... 96%  869K 0s
+   100K ...                                                   100% 5.17M=0.1s
+
+2019-08-22 00:06:24 (877 KB/s) - '--spider' saved [106004/106004]
+
+--2019-08-22 00:06:24--  https://kumparan.com/@kumparanfood/founder-makaroni-ngehe-luncurkan-buku-pertamanya-1rhe4d1WIcv
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 232670 (227K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 22%  547K 0s
+    50K .......... .......... .......... .......... .......... 44%  855K 0s
+   100K .......... .......... .......... .......... .......... 66%  538K 0s
+   150K .......... .......... .......... .......... .......... 88%  561K 0s
+   200K .......... .......... .......                         100%  471K=0.4s
+
+2019-08-22 00:06:26 (583 KB/s) - '--spider' saved [232670/232670]
+
+--2019-08-22 00:06:26--  https://kumparan.com/@kumparanfood/response/founder-makaroni-ngehe-luncurkan-buku-pertamanya-1rhe4d1WIcv
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106733 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 47%  563K 0s
+    50K .......... .......... .......... .......... .......... 95%  543K 0s
+   100K ....                                                  100% 7.51M=0.2s
+
+2019-08-22 00:06:27 (574 KB/s) - '--spider' saved [106733/106733]
+
+--2019-08-22 00:06:27--  https://kumparan.com/@kumparanfood/ada-sate-kere-hingga-kalong-ini-7-sate-unik-dari-berbagai-daerah-1rhc1VpoT2u
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 319408 (312K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 16%  542K 0s
+    50K .......... .......... .......... .......... .......... 32%  550K 0s
+   100K .......... .......... .......... .......... .......... 48%  417K 0s
+   150K .......... .......... .......... .......... .......... 64%  420K 0s
+   200K .......... .......... .......... .......... .......... 80%  802K 0s
+   250K .......... .......... .......... .......... .......... 96%  568K 0s
+   300K .......... .                                          100% 11.4M=0.6s
+
+2019-08-22 00:06:31 (544 KB/s) - '--spider' saved [319408/319408]
+
+--2019-08-22 00:06:31--  https://kumparan.com/@kumparanfood/response/ada-sate-kere-hingga-kalong-ini-7-sate-unik-dari-berbagai-daerah-1rhc1VpoT2u
+Reusing existing connection to kumparan.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 106595 (104K) [text/html]
+Saving to: '--spider'
+
+     0K .......... .......... .......... .......... .......... 48%  549K 0s
+    50K .......... .......... .......... .......... .......... 96%  555K 0s
+   100K ....                                                  100% 7.39M=0.2s
+
+2019-08-22 00:06:33 (573 KB/s) - '--spider' saved [106595/106595]
+
+FINISHED --2019-08-22 00:06:33--
+Total wall clock time: 1m 49s
+Downloaded: 39 files, 6.2M in 9.7s (651 KB/s)
