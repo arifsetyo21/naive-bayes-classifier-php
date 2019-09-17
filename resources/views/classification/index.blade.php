@@ -31,17 +31,29 @@
                   </li>
                </ul>
             </div>
-            <form class="card-body" method="post" action="{{route('classification.store')}}">
+            <form class="card-body" method="post" action="{{route('classification.nbc')}}">
                @csrf
                <h4 class="card-title">Input Data Testing</h4>
                <div class="card-text">
                   <div class="form-group">
                      <label for="articleTitle">Judul Artikel</label>
-                     <input class="form-control" id="articleTitle" rows="6" name="articleTitle" placeholder="Put Title article here"/>
+                     <input class="form-control" id="articleTitle" name="articleTitle" placeholder="Put Title article here"/>
                   </div>
                   <div class="form-group">
                      <label for="articleText">Testing Article</label>
-                     <textarea class="form-control" id="articleText" rows="10" name="articleText" placeholder="Put article content here.."></textarea>
+                     <textarea class="form-control is-invalid" id="articleText" rows="10" name="articleText" placeholder="Put article content here.."></textarea>
+                     @error('articleTitle')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                     @enderror
+                     @error('articleText')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                     @enderror
+                     {{-- <div class="invalid-feedback">
+                        {{$errors->first('articleText')}}
+                     </div>
+                     <div class="invalid-feedback">
+                        {{$errors->first('articleTitle')}}
+                     </div> --}}
                   </div>
                </div>
                <button type="submit" class="btn btn-primary">Test</a>

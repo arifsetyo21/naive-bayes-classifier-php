@@ -36,7 +36,7 @@
                   <table class="table">
                      <thead class=" text-primary">
                      <th>
-                        ID
+                        No
                      </th>
                      <th>
                         Nama
@@ -50,7 +50,7 @@
                      </thead>
                      <tbody>
                      @foreach ($article as $index => $item)
-                        @if ($item->content_cleaned == null)
+                     @if ($item->words_count == null)
                         <tr>
                            <td>
                               {{ $index + $article->firstItem() }}
@@ -63,8 +63,9 @@
                            </td>
                            <td>
                               <a href="{{route('training.preprocess', ['id' => $item->id])}}">
-                                 <button type="button" class="btn btn-primary btn-sm">Preprocess</button>
+                                 <button type="button" class="btn btn-primary btn-sm">Clean Up</button>
                               </a>
+                              <button type="button" class="btn btn-danger btn-sm">Delete</button>
                            </td>
                         </tr>
                         @else
@@ -73,16 +74,20 @@
                               {{ $index + $article->firstItem() }}
                            </td>
                            <td>
-                              {{ $item->title }}
+                              {{ $item->title }} <span class="badge badge-success">clean</span>
                            </td>
                            <td>
                               {{ $item->category->name}}
                            </td>
                            <td>
-                              <button type="button" class="btn btn-success btn-sm">Cleaned</button>
                               <a name="" id="" class="btn btn-primary btn-sm" href="{{route('article.show', ['id' => $item->id])}}" role="button">
                                  Detail
                               </a>
+                              <form action="{{route('article.delete')}}" method="POST">
+                                 @csrf
+                                 <input type="hidden" name="id" value="{{$item->id}}">
+                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                              </form>
                            </td>
                         </tr>
                         @endif
@@ -100,7 +105,41 @@
             </div>
          </div>
       </div>
+      <div class="col-lg-6 col-md-12">
+         <div class="card">
+            <div class="card-header card-header-warning">
+               <h4 class="card-title">Data Training Detail</h4>
+               <p class="card-category">Current Data Training Detail per Category</p>
+            </div>
+            <div class="card-body table-responsive">
+               <table class="table table-hover">
+               <thead class="text-warning">
+                  <th>No</th>
+                  <th>Nama Kategori</th>
+                  <th>Jumlah Dokumen</th>
+                  <th>Jumlah Kata</th>
+               </thead>
+               <tbody>
+                  @foreach ($training_detail as $index => $detail)
+                  <tr>
+                     <td>{{$index}}</td>
+                     <td>{{$detail->name}}</td>
+                     <td>{{$detail->articles_count}}</td>
+                     <td>{{$detail->words_count}}</td>
+                  </tr>
+                  @endforeach
+               </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
    </div>
+@endsection
+
+@section('css')
+   table.table > tbody > tr > td > form  {
+      display: inline-block;
+    }
 @endsection
 
 @section('js')

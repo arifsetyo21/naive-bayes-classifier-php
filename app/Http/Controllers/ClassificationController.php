@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class ClassificationController extends Controller
 {
@@ -34,6 +36,17 @@ class ClassificationController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
+
+        $messages = [
+            'required' => ':attribute harus diisi.',
+        ];
+
+        \Validator::make($request->all(), [
+            "articleTitle" => "required",
+            "articleText" => "required",
+        ], $messages)->validate();
+
         $article_text = $request->articleText;
         $article_title = $request->articleTitle;
         $article_text = explode("\n", $article_text);
@@ -68,12 +81,168 @@ class ClassificationController extends Controller
             endif;
         }
 
-        $this->stemmed = $this->wordlist->map(function ($value) {
-            return app('stemm')->stem($value);
-        });
-        
+        $category_list = Category::all();
 
-        return view('classification.result', ['words' => $this->stemmed]);
+        $collection_result = collect();
+
+        $word_total = DB::table('words')->count();
+
+        // Lakukan perulangan untuk collection $category_list
+        $by_category = $category_list->map( function($category) use ($word_total){
+
+            // Ambil total kata pada sebuah kelas
+            $word_count_in_category = DB::table('words')
+                                    ->join('articles', 'words.article_id', '=', 'articles.id')
+                                    ->select('words.*', 'articles.category_id')
+                                    ->where('category_id', '=', $category->id)->count();
+
+            // Lakukan perulangan untuk collection di $this->wordlist
+            $words = $this->wordlist->map(function ($value) use ($category, $word_total, $word_count_in_category){
+                $word_stemmed = app('stemm')->stem($value);
+
+                $word_count = DB::table('words')
+                            ->join('articles', 'words.article_id', '=', 'articles.id')
+                            ->select('words.*', 'articles.category_id')
+                            ->where('word_term', '=', $word_stemmed)
+                            ->where('category_id', '=', $category->id)->count();
+
+                return [
+                    'word' => $word_stemmed,
+                    'word_count' => $word_count,
+                    'nbc_value_per_word' => log(($word_count + 1) / ($word_count_in_category + $word_total))
+                ];
+            });
+
+            return [
+                'category' => $category->name,
+                'words' => $words->toArray(),
+                // Menampilkan jumlah kata pada sebuah kategori atau count(C)
+                'words_count_in_category' => $word_count_in_category,
+                'nbc_value_per_class' => $words->sum('nbc_value_per_word')
+            ];
+        });
+
+        $result = collect([
+            'category' => $by_category->keyBy('category')->sortBy('category'),
+            // Menampilkan total words atau |V|
+            'total_words' => $word_total,
+        ]);
+
+        // 'category' => $by_category->keyBy('category')->sortByDesc('nbc_value_per_class'),
+
+        // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
+
+        // return dd($result->toArray());
+        return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
+        
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeModified(Request $request)
+    {
+        // dd($request);
+
+        $messages = [
+            'required' => ':attribute harus diisi.',
+        ];
+
+        \Validator::make($request->all(), [
+            "articleTitle" => "required",
+            "articleText" => "required",
+        ], $messages)->validate();
+
+        $article_text = $request->articleText;
+        $article_title = $request->articleTitle;
+        $article_text = explode("\n", $article_text);
+        
+        foreach($article_text as $array) {
+            $token[] = explode(" ", $array);
+        }
+
+        foreach($token as $tkn){
+            foreach($tkn as $index => $t){ 
+                $k = strtolower(preg_replace('/[^a-zA-Z ]/', '', $t));
+                if($k == ''){
+                    unset($tkn[$index]);
+                } else {
+                    $string[] = $k;
+                }
+            }
+        }
+
+        $stopwords_list = collect(explode("\n", file_get_contents(\public_path('stopword_list_tala.txt'))));
+        // stopword wordlist : http://hikaruyuuki.lecture.ub.ac.id/kamus-kata-dasar-dan-stopword-list-bahasa-indonesia/
+
+        $this->wordlist = \collect($string);
+
+        $this->wordlist = $this->wordlist->filter(function($value, $key){
+            return strlen($value) > 1;
+        });
+
+        foreach($this->wordlist as $index => $s) {
+            if(\in_array($s, $stopwords_list->toArray())) :
+                unset($this->wordlist[$index]);
+            endif;
+        }
+
+        $category_list = Category::all();
+
+        $collection_result = collect();
+
+        $word_total = DB::table('words')->count();
+
+        // Lakukan perulangan untuk collection $category_list
+        $by_category = $category_list->map( function($category) use ($word_total){
+
+            // Ambil total kata pada sebuah kelas
+            $word_count_in_category = DB::table('words')
+                                        ->join('articles', 'words.article_id', '=', 'articles.id')
+                                        ->select('words.*', 'articles.category_id')
+                                        ->where('category_id', '=', $category->id)->count();
+
+            // Lakukan perulangan untuk collection di $this->wordlist
+            $words = $this->wordlist->map(function ($value) use ($category, $word_total, $word_count_in_category){
+                $word_stemmed = app('stemm')->stem($value);
+
+                $word_count = DB::table('words')
+                                ->join('articles', 'words.article_id', '=', 'articles.id')
+                                ->select('words.*', 'articles.category_id')
+                                ->where('word_term', '=', $word_stemmed)
+                                ->where('category_id', '=', $category->id)->count();
+
+                return [
+                    'word' => $word_stemmed,
+                    'word_count' => $word_count,
+                    'nbc_value_per_word' => log(($word_count + 1) / ($word_count_in_category + $word_total))
+                ];
+            });
+
+            return [
+                'category' => $category->name,
+                'words' => $words->toArray(),
+                // Menampilkan jumlah kata pada sebuah kategori atau count(C)
+                'words_count_in_category' => $word_count_in_category,
+                'nbc_value_per_class' => $words->sum('nbc_value_per_word')
+            ];
+        });
+
+        $result = collect([
+            'category' => $by_category->keyBy('category')->sortBy('category'),
+            // Menampilkan total words atau |V|
+            'total_words' => $word_total,
+        ]);
+
+        // 'category' => $by_category->keyBy('category')->sortByDesc('nbc_value_per_class'),
+
+        // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
+
+        // return dd($result->toArray());
+        return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
         
     }
 
@@ -122,26 +291,24 @@ class ClassificationController extends Controller
         //
     }
 
-    public function classification($word, $category){
-        // count(Wic) : Jumlah kata w dalam sebuah kelas
-        // DB::table('words')->join('articles', 'words.article_id', '=', 'articles.id')->select('words.*', 'articles.category_id')->where('word_term', '=', 'motor')->where('category_id', '=', '11')->count();
-
-        // Count(C) : Jumlah total kata pada sebuah kelas
-        // DB::table('words')->join('articles', 'words.article_id', '=', 'articles.id')->select('words.*', 'articles.category_id')->where('word_term', '=', 'motor')->count();
-
-        // |V| : Total kata semua kelas
-        // DB::table('words')->count();
-
-        // Rumus
-        // P(C|d) = hasil probabilitas di kalikan semua, dan diambil hasil paling besar
-        // P(Wi | C) = (count(Wi, C) + 1) / (count(C) + |V|)
-        
-    }
-
     public function singleResult(Request $request){
         $text = $request->articleText;
 
     }
 
+    public function classification($word, $category){
+        // count(Wic) : Jumlah kata w dalam sebuah kelas
+        // DB::table('words')->join('articles', 'words.article_id', '=', 'articles.id')->select('words.*', 'articles.category_id')->where('word_term', '=', 'motor')->where('category_id', '=', '11')->count();
+
+        // Count(C) : Jumlah total kata pada sebuah kelas
+        // DB::table('words')->join('articles', 'words.article_id', '=', 'articles.id')->select('words.*', 'articles.category_id')->where('category_', '=', 'motor')->count();
+        
+        // |V| : Total kata semua kelas
+        // DB::table('words')->count();
+        // Rumus
+        // P(C|d) = hasil probabilitas di kalikan semua, dan diambil hasil paling besar
+        // P(Wi | C) = (count(Wi, C) + 1) / (count(C) + |V|)
+        
+    }
 
 }

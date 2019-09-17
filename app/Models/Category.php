@@ -13,4 +13,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\Article');
     }
+    
+    public function words()
+    {
+        return $this->hasManyThrough('App\Models\Word', 'App\Models\Article');
+    }
 }

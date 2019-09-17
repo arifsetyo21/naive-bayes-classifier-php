@@ -26,7 +26,14 @@ Route::group(['prefix' => '/training'], function () {
 });
 
 Route::group(['prefix' => 'article'], function () {
+Route::post('delete', 'ArticleController@deleteArticle')->name('article.delete');
+    Route::post('delete-permanent/{id}', 'ArticleController@deleteArticlePermanent')->name('article.deletePermanent');
     Route::get('show/{id}', 'ArticleController@show')->name('article.show');
+});
+
+Route::group(['prefix' => 'classification'], function () {
+    Route::post('nbc', 'ClassificationController@store')->name('classification.nbc');
+    Route::post('nbc-modified', 'ClassificationController@storeModified')->name('classification.nbcModified');
 });
 
 Route::delete('/category/destroy/{id}', 'CategoryController@deletePermanent')->name('category.destroy-permenent');

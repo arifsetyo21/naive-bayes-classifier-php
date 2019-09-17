@@ -18,7 +18,9 @@ class ArticleController extends Controller
               $article,
               $wordlist,
               $stemmed,
-              $article_id;
+              $article_id,
+              $wordCollection;
+
 
 
     public function __construct(){
@@ -56,7 +58,7 @@ class ArticleController extends Controller
    public function storeUrl(Request $request){
 
       \Validator::make($request->all(), [
-         "url" => "unique:urls,url",
+         "url" => "required|unique:urls,url",
       ])->validate();
 
       $url = \App\Models\Url::create([
@@ -125,7 +127,7 @@ class ArticleController extends Controller
    public function preprocess($id){
        $this->preprocessArticle($id);
        $this->stemmingWord();
-       $status = $this->saveCleanedArticle();
+       $status = $this->saveCleanedArticle($id);
        return redirect()->route('training.index')->with('status', 'oke');
    }
 
@@ -238,15 +240,31 @@ class ArticleController extends Controller
         });
     }   
 
-   public function saveCleanedArticle(){
-       $update_article = \App\Models\Article::findOrFail($this->article_id);
-       $update_article->content_cleaned = $this->stemmed->toJson();
-       return $update_article->save();
+   public function saveCleanedArticle($article_id){
+      // $update_article = \App\Models\Article::findOrFail($this->article_id);
+      // $update_article->content_cleaned = $this->stemmed->toJson();
+      // return $update_article->save();
+
+      $this->wordCollection = $this->stemmed;
+      if (\App\Models\Word::where('article_id', '=', $article_id)->exists()) {
+         Alert::error('Data Gagal Disimpan', 'Words Sudah Pernah di Simpan');
+         return back();
+      } else {
+         Alert::success('Sukses di Simpan', 'Words sukses disimpan di database');
+         return $this->wordCollection->map(function ($item) use ($article_id){
+               return \App\Models\Word::create(['word_term' => $item, 'article_id' => $article_id]);
+         });
+      }
    }
 
-   public function deleteArticle($id = null){
-        $delete_article = ($id == null) ? \App\Models\Article::findOrFail($this->article_id) : \App\Models\Article::findOrFail($id);   
-        return $delete_article->delete();
+   public function deleteArticle(Request $request){
+        $delete_article = ($request->id == null) ? \App\Models\Article::findOrFail($this->article_id) : \App\Models\Article::findOrFail($request->id);   
+        $delete_url = \App\Models\Url::findOrFail($delete_article->url_id);
+        $delete_url->delete();
+        $delete_article->delete();
+
+        Alert::success('Sukses di Hapus', 'Words sukses dihapus dari database');
+        return redirect()->route('training.index');
    }
 
    public function cleanContentCleaned(){
@@ -255,8 +273,8 @@ class ArticleController extends Controller
         return $article->save();
    }
 
-   public function deleteArticlePermanent($id = null){
-        $delete_article = ($id == null) ? \App\Models\Article::withTrashed()->findOrFail($this->article_id) : \App\Models\Article::withTrashed()->findOrFail($id);   
+   public function deleteArticlePermanent(Request $request){
+        $delete_article = ($request->id) ? \App\Models\Article::withTrashed()->findOrFail($this->article_id) : \App\Models\Article::withTrashed()->findOrFail($request->id);   
         return $delete_article->forceDelete();
    }
 }

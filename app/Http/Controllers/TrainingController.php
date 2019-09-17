@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\Category;
 
 class TrainingController extends Controller
 {
@@ -15,8 +16,9 @@ class TrainingController extends Controller
     public function index()
     {
         $url_list = \App\Models\Url::all();
-        $article_list = \App\Models\Article::with('category')->paginate(10);
-        return view('training/index')->with(['article' => $article_list]);
+        $data_training_detail = Category::withCount(['articles', 'words'])->get();
+        $article_list = \App\Models\Article::with('category')->withCount('words')->paginate(10);
+        return view('training/index')->with(['article' => $article_list, 'training_detail' => $data_training_detail]);
     }
 
     /**

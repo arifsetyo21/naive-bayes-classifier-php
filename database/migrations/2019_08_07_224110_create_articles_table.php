@@ -22,7 +22,7 @@ class CreateArticlesTable extends Migration
             $table->text('content_cleaned')->nullable();
             $table->timestamps();
 
-            $table->foreign('url_id')->references('id')->on('urls');
+            $table->foreign('url_id')->references('id')->on('urls')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

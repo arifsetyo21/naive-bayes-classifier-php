@@ -22,7 +22,7 @@ class CreateWordsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('article_id')->references('id')->on('articles');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
