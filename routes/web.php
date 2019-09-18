@@ -32,6 +32,7 @@ Route::post('delete', 'ArticleController@deleteArticle')->name('article.delete')
 });
 
 Route::group(['prefix' => 'classification'], function () {
+    Route::get('nbc-modified', 'ClassificationController@indexModified')->name('classification.nbcModifiedIndex');
     Route::post('nbc', 'ClassificationController@store')->name('classification.nbc');
     Route::post('nbc-modified', 'ClassificationController@storeModified')->name('classification.nbcModified');
 });

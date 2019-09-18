@@ -18,6 +18,11 @@ class ClassificationController extends Controller
         return view('classification.index');
     }
 
+    public function indexModified()
+    {
+        return view('classification.index-modified');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -128,6 +133,8 @@ class ClassificationController extends Controller
             'total_words' => $word_total,
         ]);
 
+        // dd($result);
+
         // 'category' => $by_category->keyBy('category')->sortByDesc('nbc_value_per_class'),
 
         // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
@@ -207,18 +214,78 @@ class ClassificationController extends Controller
 
             // Lakukan perulangan untuk collection di $this->wordlist
             $words = $this->wordlist->map(function ($value) use ($category, $word_total, $word_count_in_category){
+
+                $word_count = 0;
                 $word_stemmed = app('stemm')->stem($value);
 
-                $word_count = DB::table('words')
-                                ->join('articles', 'words.article_id', '=', 'articles.id')
-                                ->select('words.*', 'articles.category_id')
-                                ->where('word_term', '=', $word_stemmed)
-                                ->where('category_id', '=', $category->id)->count();
+            // DB::table('words')
+            //             ->join('articles', 'words.article_id', '=', 'articles.id')
+            //             ->select('words.*', 'articles.category_id')
+            //             ->where('word_term', '=', $word_stemmed)
+            //             ->where('category_id', '=', $category->id)->count();
+
+                $word = \App\Models\Word::where('word_term', '=', $word_stemmed)
+                                    ->with(['article' => function ($query) use ($category) {
+                                        $query->where('category_id', '=', $category->id);
+                                    }])->get();
+
+                $word_count_original = DB::table('words')
+                                        ->join('articles', 'words.article_id', '=', 'articles.id')
+                                        ->select('words.*', 'articles.category_id')
+                                        ->where('word_term', '=', $word_stemmed)
+                                        ->where('category_id', '=', $category->id)->count();
+
+                $word_count = $word->map(function ($item, $key) use ($category, $word_total, $word_count_in_category){
+                
+                    if(\App\Models\Article::where('id', '=', $item->article_id)
+                                        ->with('words')
+                                        ->where('category_id', '=', $category->id)
+                                        ->withCount('words')
+                                        ->first() == null) 
+                        {
+                            // $total_word_in_article = null;                            
+                            return null;
+                        } else {
+                            $total_word_in_article = \App\Models\Article::where('id', '=', $item->article_id)
+                                                                        ->with('words')
+                                                                        ->where('category_id', '=', $category->id)
+                                                                        ->withCount('words')
+                                                                        ->first()->words_count;
+
+                            $id_word_start_in_article = \App\Models\Article::where('id', '=', $item->article_id)
+                                                                            ->with('words')
+                                                                            ->where('category_id', '=', $category->id)
+                                                                            ->withCount('words')
+                                                                            ->first()
+                                                                            ->words->first()->id;
+
+                            $percentile_under_33 = round($total_word_in_article * (33.33/100)) + $id_word_start_in_article;
+                
+                            if( $item->id <= $percentile_under_33  ) {
+                                return [
+                                    'word_total' => 1,
+                                    'word_count_in_category' => $word_count_in_category + 1,
+                                    'value' => 2
+                                ];
+                            } else {
+                                return ['value' => 1];
+                            }
+                        }
+                    });
+
+                    // return dd($word_count->sum('value'));
+                    // return dd($word_count->sum() - $word_count_original);
+                    $different_word_count = ($word_count->sum() - $word_count_original);
+                    $word_count_in_category = $word_count_in_category + $different_word_count;
+                    $word_total = $word_total + $different_word_count;
+                
+                return dd($word_count);
 
                 return [
                     'word' => $word_stemmed,
-                    'word_count' => $word_count,
-                    'nbc_value_per_word' => log(($word_count + 1) / ($word_count_in_category + $word_total))
+                    'word_count' => $word_count->sum('value'),
+                    // 'plus_word' => $word_count->
+                    // 'nbc_value_per_word' => log(($word_count->sum() + 1) / ($word_count_in_category + $word_total))
                 ];
             });
 
@@ -229,6 +296,11 @@ class ClassificationController extends Controller
                 'words_count_in_category' => $word_count_in_category,
                 'nbc_value_per_class' => $words->sum('nbc_value_per_word')
             ];
+
+        });
+
+        $temp_word_total = $by_category->map( function ($item, $key) {
+            // $item[''];
         });
 
         $result = collect([
@@ -237,13 +309,13 @@ class ClassificationController extends Controller
             'total_words' => $word_total,
         ]);
 
+
         // 'category' => $by_category->keyBy('category')->sortByDesc('nbc_value_per_class'),
 
         // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
 
         // return dd($result->toArray());
         return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
-        
     }
 
     /**
