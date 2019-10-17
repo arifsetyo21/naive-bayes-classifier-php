@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="{{asset('css/sweetalert2/sweetalert2.min.css')}}">
     <script src="{{asset('js/core/jquery.min.js')}}"></script>
     <style>
-      @yield('css')
+      @yield('css');
     </style>
   </head>
  
