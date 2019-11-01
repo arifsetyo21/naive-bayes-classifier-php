@@ -32,6 +32,9 @@
                </ul>
             </div>
             <form class="card-body" method="post" action="{{route('classification.nbcModified')}}">
+               @if (session('error'))
+                  <div class="alert alert-danger">{{ session('error') }}</div>
+               @endif
                @csrf
                <h4 class="card-title">Input Data Testing</h4>
                <div class="card-text">

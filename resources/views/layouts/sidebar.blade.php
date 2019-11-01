@@ -35,18 +35,6 @@
                <p>Classification</p>
             </a>
          </li>
-         <li class="nav-item ">
-            <a class="nav-link" href="#">
-               <i class="material-icons">library_books</i>
-               <p>Typography</p>
-            </a>
-         </li>
-         <li class="nav-item ">
-            <a class="nav-link" href="#">
-               <i class="material-icons">bubble_chart</i>
-               <p>Icons</p>
-            </a>
-         </li>
          <!-- your sidebar here -->
       </ul>
    </div>

@@ -22,19 +22,29 @@
                <h4 class="card-title ">Simple Table</h4>
                <p class="card-category"> Here is a subtitle for this table</p>
             </div>
-            <div class="card-body">
-                  {{$result['total_words']}} 
-                  @foreach ($result['category'] as $key => $value)
-                  <h3 class="card-title">Kategori {{$key}} <span class="badge badge-info">{{$value['nbc_value_per_class']}}</span></h3> Count(C) : {{$value['words_count_in_category']}}
-                  <div class="card-text"> 
-                     @foreach ($value['words'] as $word)
-                        <div class="btn btn-rose btn-sm">
-                           {{ $word['word']}} <span class="badge badge-light">{{ "  " . $word['word_count']}}</span>
-                        </div>
+            <div class="card-body"> 
+                  @if (session('error'))
+                     <div class="alert alert-danger">{{ session('error') }}</div>
+                  @endif
+                  @if (empty($result))
+                     @if (session('error'))
+                        {{$exception->getMessage()}}
+                     @endif
+                     <div class="alert alert-danger">{{ session('error') }}</div>
+                  @else
+                     {{ $result['total_words']}} 
+                     @foreach ($result['category'] as $key => $value)
+                     <h3 class="card-title">Kategori {{$key}} <span class="badge badge-info">{{$value['nbc_value_per_class']}}</span></h3> Count(C) : {{$value['words_count_in_category']}}
+                     <div class="card-text"> 
+                        @foreach ($value['words'] as $word)
+                           <div class="btn btn-rose btn-sm">
+                              {{ $word['word']}} <span class="badge badge-light">{{ "  " . $word['word_count']}}</span>
+                           </div>
+                        @endforeach
+                        <br>
+                        <br>
                      @endforeach
-                     <br>
-                     <br>
-                  @endforeach
+                  @endif
                </div>
                <br>
             </div>
