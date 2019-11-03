@@ -9,6 +9,12 @@ use App\Models\Article as Article;
 use Illuminate\Support\Collection;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Category;
+use Goutte\Client;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ArticleImport;
+use App\Exports\ArticleExport;
+
 class ArticleController extends Controller
 {
     protected $url,
@@ -23,9 +29,16 @@ class ArticleController extends Controller
 
 
 
-    public function __construct(){
-        
-    }
+   public function __construct(){
+      
+   }
+
+   // for explode string with many parameter
+   public function multiexplode ($delimiters,$string) {
+      $ready = str_replace($delimiters, $delimiters[0], $string);
+      $launch = explode($delimiters[0], $ready);
+      return  $launch;
+   }
 
    public function __set($property, $value){
       if( property_exists($this, $property)){
@@ -57,20 +70,63 @@ class ArticleController extends Controller
 
    public function storeUrl(Request $request){
 
-      \Validator::make($request->all(), [
+      $validation = \Validator::make($request->all(), [
          "url" => "required|unique:urls,url",
+         "category_id" => "required"
       ])->validate();
 
-      $url = \App\Models\Url::create([
-         'domain' => 'kumparan.com',
-         'url' => $request->url,         
-      ]);
+      // list parameter for delimiter
+      $delimiter = [PHP_EOL, ' ', ','];
+      $category_id = $request->category_id;
 
-      $request->url_id = $url->id;
+      // separate string to array
+      $urls = (object) collect(
+         array_filter(
+            $this->multiexplode($delimiter, $request->url)
+         )
+      );
 
-      $this->scrapContentKumparan($request);
-      Alert::success('Success Message', 'Url Berhasil ditambahkan dan discrap');
+      $collection = $urls->map(function ($item, $key) use ($category_id){
+         $id = \App\Models\Url::create([
+            'domain' => 'kumparan.com',
+            'url' => $item,
+         ]);
+
+         return collect ( [(object) [ 
+            'url' => $item,
+            'url_id' => $id->id,
+            'category_id' => $category_id
+         ]]); 
+      });
+
+      // return dd($collection->values()->all());
+
+      $collection->map(function ($item, $key) {
+         $this->scrapContentKumparan($item);
+      });
+
+      Alert::success('Success Message', 'Url Berhasil Ditambahkan dan Discrap');
       return redirect()->route('training.index');
+   }
+
+   public function saveUrl($request){
+
+      $collection = $request->map(function ($item, $key){
+         $id = \App\Models\Url::create([
+            'domain' => 'kumparan.com',
+            'url' => $item->url,
+         ]);
+
+         return collect ( [(object) [ 
+            'url' => $item->url,
+            'url_id' => $id->id,
+            'category_id' => $item->category_id,
+         ]]); 
+      });
+
+      $collection->map(function ($item, $key) {
+         $this->scrapContentKumparan($item);
+      });
    }
 
    public function setUrlfromDB(){
@@ -85,28 +141,77 @@ class ArticleController extends Controller
       return view('training.scrap', ['urls' => $urls]);
    }
 
-   public function scrapContentKumparan(Request $request){
-
-      $simple_html_dom = new simple_html_dom();
+   public function scrapContentKumparan(Collection $collection){
       
-      $simple_html_dom->load_file($request->url);
-      $title = trim($simple_html_dom->find('h1', 0)->plaintext);
-      $content = [];
-      foreach ($simple_html_dom->find('div[class=components__NormalWidth-sc-1ukv6c0-0 clLKZY]')
-               as $paragraph) {
-                  array_push($content, trim($paragraph->plaintext));
-               }
+      $collection->map(function ($item, $key) {
 
-      return $this->saveScrappedArticle([
-         'title' => $title,
-         'content' => $content,
-         'url_id' => $request->url_id,
-         'category_id' => $request->category_id
-      ]);      
+         $client = new Client();
+         $crawler = $client->request('GET', trim($item->url));
+         // $simple_html_dom->load_file($item->url);
+
+         $title = $crawler->filter('h1')->each(function ($node) {return $node->text();});
+         // $title = trim($simple_html_dom->find('h1', 0)->plaintext);
+
+         // $content = [];
+         
+         // foreach ($simple_html_dom->find('div[class=components__NormalWidth-sc-1ukv6c0-0 clLKZY]')
+         //          as $paragraph) {
+         //             array_push($content, trim($paragraph->plaintext));
+         //          }
+
+         $content = $crawler->filter('div.clLKZY.components__NormalWidth-sc-1ukv6c0-0')->each(function ($node) {return $node->text();});
+
+         unset($client);
+
+         // return dd($title, $content, $item);
+
+         return $this->saveScrappedArticle([
+            'title' => $title[0],
+            'content' => $content,
+            'url_id' => $item->url_id,
+            'category_id' => $item->category_id
+         ]);
+
+      });
    }
 
    public function getTitle(){
       return $this->title;
+   }
+
+   // function for export as Excel
+   public function export(){
+      $file_name = "articles_training_(".date("Y-m-d",time()). ").xlsx";
+      return Excel::download(new ArticleExport(), $file_name);
+   }
+
+   public function import(Request $request){
+      
+      $articles = Excel::toCollection(new ArticleImport(), $request->file('import_article'));
+
+      $articles = $articles[0]->map(function($item, $key){
+         $container = collect();
+         $container->url = trim($item['url']);
+         $container->category_id = (int) $item['category_id'];
+
+         return $container;
+      });
+
+      // return dd($articles);
+
+      try {
+         $this->saveUrl($articles);
+         // $this->scrapContentKumparan($articles);
+
+         Alert::success('URL Berhasil Ditambahkan dan Discrap');
+         
+         return redirect()->back();
+
+      } catch (\Exception $e) {
+         Alert::error('URL Gagal Ditambahkan', $e->getMessage());
+         return redirect()->back();
+      }
+   
    }
 
    public function saveArticleWithoutUrl($article) {
@@ -115,34 +220,100 @@ class ArticleController extends Controller
 
    public function saveScrappedArticle(array $article){
 
-         $validation = \Validator::make($article,[
-            "url_id" => "unique:articles"
-         ])->validate();
-        
-         $article['content'] = json_encode($article['content']);
+      $validation = \Validator::make($article,[
+         "url_id" => "unique:articles"
+      ])->validate();
+      
+      $article['content'] = json_encode($article['content']);
 
-         return \App\Models\Article::create($article)->id;
+      return \App\Models\Article::create($article)->id;
    }
 
-   public function preprocess($id){
-       $this->preprocessArticle($id);
-       $this->stemmingWord();
-       $status = $this->saveCleanedArticle($id);
-       return redirect()->route('training.index')->with('status', 'oke');
+   public function preprocessAll(){
+      
+      // Select article whereNotIn words, that mean, select article where not preprocess
+      $articles = DB::table('articles')
+                  ->select('*')
+                  ->whereNotIn('id', function($query) {
+                     $query->select('article_id')->from('words');
+                  })->get();
+
+      if($this->preprocess($articles, true)){
+
+         Alert::success('Preprocess Berhasil');
+         return redirect()->back();
+      } else {
+
+         Alert::error('Gagal Preprcessing');
+         return redirect()->back();
+      }
+
+   }
+
+   public function preprocess($id, $many = false){
+
+      // for single preprocess 
+      if( $many == false ) {
+
+         try {
+            
+            $this->preprocessArticle($id);
+            $this->stemmingWord();
+            $check_wordlist = $this->saveCleanedArticle($id);
+
+            if($check_wordlist == false){
+               throw new Exception($check_wordlist);
+            }
+            
+            Alert::success('Preprocess Sukses');
+            return redirect()->back();
+            
+         } catch (Exception $e) {
+            
+            Alert::error('Gagal Preprcessing', $e->getMessage());
+            return redirect()->back();
+         }
+      
+         // for many preprocess
+      } else {
+         
+         try {
+
+            $id->map(function ($item, $key) {
+
+               $this->preprocessArticle($item->id);
+               $this->stemmingWord();
+               $this->saveCleanedArticle($item->id);
+
+            });
+
+            return true;
+
+         } catch (\Exception $e) {
+
+            Alert::error('Gagal Melakukan Preprocess', $e->getMessage());
+            return redirect()->back();
+         }
+      }
    }
 
    public function preprocessArticle($id){
         $article = \App\Models\Article::findOrFail($id);
         $this->article_id = $article->id;
         $content_article = \json_decode($article->content);
+
+        $tokenizerFactory  = new \Sastrawi\Tokenizer\TokenizerFactory();
+        $tokenizer = $tokenizerFactory->createDefaultTokenizer();
         
         foreach($content_article as $array) {
-            $token[] = explode(" ", $array);
+            $token[] = $tokenizer->tokenize($array);
+            // $token[] = explode(" ", $array);
         }
 
         foreach($token as $tkn){
             foreach($tkn as $index => $t){ 
                 $k = strtolower(preg_replace('/[^a-zA-Z ]/', '', $t));
+
                 if($k == ''){
                     unset($tkn[$index]);
                 } else {
@@ -241,16 +412,13 @@ class ArticleController extends Controller
     }   
 
    public function saveCleanedArticle($article_id){
-      // $update_article = \App\Models\Article::findOrFail($this->article_id);
-      // $update_article->content_cleaned = $this->stemmed->toJson();
-      // return $update_article->save();
 
       $this->wordCollection = $this->stemmed;
       if (\App\Models\Word::where('article_id', '=', $article_id)->exists()) {
-         Alert::error('Data Gagal Disimpan', 'Words Sudah Pernah di Simpan');
-         return back();
+         // Alert::error('Data Gagal Disimpan', 'Words Sudah Pernah di Simpan');
+         return false;
       } else {
-         Alert::success('Sukses di Simpan', 'Words sukses disimpan di database');
+         // Alert::success('Sukses di Simpan', 'Words sukses disimpan di database');
          return $this->wordCollection->map(function ($item) use ($article_id){
                return \App\Models\Word::create(['word_term' => $item, 'article_id' => $article_id]);
          });
@@ -258,13 +426,13 @@ class ArticleController extends Controller
    }
 
    public function deleteArticle(Request $request){
-        $delete_article = ($request->id == null) ? \App\Models\Article::findOrFail($this->article_id) : \App\Models\Article::findOrFail($request->id);   
-        $delete_url = \App\Models\Url::findOrFail($delete_article->url_id);
-        $delete_url->delete();
-        $delete_article->delete();
+      $delete_article = ($request->id == null) ? \App\Models\Article::findOrFail($this->article_id) : \App\Models\Article::findOrFail($request->id);   
+      $delete_url = \App\Models\Url::findOrFail($delete_article->url_id);
+      $delete_url->delete();
+      $delete_article->delete();
 
-        Alert::success('Sukses di Hapus', 'Words sukses dihapus dari database');
-        return redirect()->route('training.index');
+      Alert::success('Sukses di Hapus', 'Words sukses dihapus dari database');
+      return redirect()->route('training.index');
    }
 
    public function cleanContentCleaned(){

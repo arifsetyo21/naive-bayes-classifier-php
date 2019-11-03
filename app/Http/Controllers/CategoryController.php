@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
@@ -15,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        return view('category.index', ['categories' => Category::withTrashed()->get()]);
+        return view('category.index', ['categories' => Category::withTrashed()->paginate(10)]);
     }
 
             /**
@@ -45,7 +46,6 @@ class CategoryController extends Controller
         $new_category->name = $request->name;
         $new_category->save();
         return \redirect()->route('category.index')->with('status', 'Successfully Created');
-
     }
 
     /**
@@ -67,7 +67,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        
+        return view('category.edit', ['category' => $category]);
     }
 
     /**
@@ -79,10 +81,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         $category = \App\Models\Category::findOrFail($id);
-        $category->name = $request->name;
-        return $category->save();
+
+        try {
+            $category->name = $request->name;
+            $category->save();
+            Alert::success('Sukses Diubah', 'Nama Kategori Berhasil Diubah');
+
+            return redirect()->route('category.index');
+
+        } catch (Exception $e) {
+            Alert::error( 'Gagal', $e->getMessage());
+        }
     }
 
     /**

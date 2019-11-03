@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
-@section('title')
-    Training Page | NBC
-@endsection
+@section('title', 'Training Page')
+
+@section('header', 'Daftar Data Training')
+
 @section('content')
    @if (session('status'))   
    <div class="alert alert-primary" id="alert">
@@ -15,21 +16,37 @@
    </div>       
    @endif
    <div class="row">
-      <div class="col-md-12 social-button-demo">
-         <a href="{{url('training/addUrl')}}">
+      <div class="col-md-12 social-button-demo" style="height: 50px;">
+         <a href="{{route('training.addUrl')}}" class="float-left mr-1">
             <button class="btn btn-fill btn-success">
                   <i class="material-icons">
                      note_add
                   </i> Tambah Data Training
             </button>
          </a>
+         <a href="{{route('article.export')}}" class="float-left mr-1">
+            <button class="btn btn-fill btn-success">
+                  <i class="material-icons">
+                     cloud_download
+                  </i>
+                   Unduh Data Training (.xlsx)
+            </button>
+         </a>
+         <form action="{{route('training.preprocessAll')}}" method="post" onsubmit="return confirm('Preprocess Semua Data ?')">
+            @csrf
+            <button type="submit" class="btn btn-fill btn-primary">
+               <i class="material-icons">
+                  file_copy
+               </i> Preprocess Semua
+            </button>
+         </form>
          <br>
       </div>
       <div class="col-md-12">
          <div class="card">
             <div class="card-header card-header-primary">
-            <h4 class="card-title ">Data Training</h4>
-            <p class="card-category"> Here is a subtitle for this table</p>
+            <h4 class="card-title ">Daftar Data Training</h4>
+            <p class="card-category"> Semua Kelas Kategori</p>
             </div>
             <div class="card-body">
                <div class="table-responsive">
@@ -56,7 +73,7 @@
                               {{ $index + $article->firstItem() }}
                            </td>
                            <td>
-                              {{ $item->title }}
+                              ({{$item->id}}) {{ $item->title }}
                            </td>
                            <td>
                               {{ $item->category->name}}
@@ -65,7 +82,11 @@
                               <a href="{{route('training.preprocess', ['id' => $item->id])}}">
                                  <button type="button" class="btn btn-primary btn-sm">Clean Up</button>
                               </a>
-                              <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                              <form action="{{route('training.destroy', ['id' => $item->id])}}" method="post">
+                                 @csrf
+                                 <input type="hidden" name="_method" value="delete">
+                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                              </form>
                            </td>
                         </tr>
                         @else
@@ -74,7 +95,7 @@
                               {{ $index + $article->firstItem() }}
                            </td>
                            <td>
-                              {{ $item->title }} <span class="badge badge-success">clean</span>
+                              ({{$item->id}}) {{ $item->title }} <span class="badge badge-success">clean</span>
                            </td>
                            <td>
                               {{ $item->category->name}}

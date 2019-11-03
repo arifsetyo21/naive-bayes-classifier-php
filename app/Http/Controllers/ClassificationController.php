@@ -13,6 +13,14 @@ class ClassificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // for explode string with many parameter
+    public function multiexplode ($delimiters,$string) {
+        $ready = str_replace($delimiters, $delimiters[0], $string);
+        $launch = explode($delimiters[0], $ready);
+        return  $launch;
+    }
+
     public function index()
     {
         return view('classification.index');
@@ -39,9 +47,17 @@ class ClassificationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+
+    public function store(Request $request){
+        
+        $nbc = $this->nbc($request);
+        $modified = $this->nbcModified($request);
+
+        return view('classification.result', ['result' => $nbc, 'result_modified' => $modified]);
+    }
+
+    public function nbc(Request $request)
     {
-        // dd($request);
 
         $messages = [
             'required' => ':attribute harus diisi.',
@@ -54,12 +70,8 @@ class ClassificationController extends Controller
 
         $article_text = $request->articleText;
         $article_title = $request->articleTitle;
-        $article_text = explode("\n", $article_text);
+        $token[] = $this->multiexplode([PHP_EOL, "\n", ' ', '-', '|', '/'], $article_text);
         
-        foreach($article_text as $array) {
-            $token[] = explode(" ", $array);
-        }
-
         foreach($token as $tkn){
             foreach($tkn as $index => $t){ 
                 $k = strtolower(preg_replace('/[^a-zA-Z ]/', '', $t));
@@ -133,16 +145,8 @@ class ClassificationController extends Controller
             'total_words' => $word_total,
         ]);
 
-        return dd($result);
-
-        // dd($result);
-
-        // 'category' => $by_category->keyBy('category')->sortByDesc('nbc_value_per_class'),
-
-        // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
-
-        // return dd($result->toArray());
-        return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
+        // return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
+        return ['result' => $result->toArray(), 'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()];
         
     }
 
@@ -153,7 +157,7 @@ class ClassificationController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function storeModified(Request $request)
+    public function nbcModified(Request $request)
     {
         // dd($request);
 
@@ -168,11 +172,7 @@ class ClassificationController extends Controller
 
         $article_text = $request->articleText;
         $article_title = $request->articleTitle;
-        $article_text = explode("\n", $article_text);
-        
-        foreach($article_text as $array) {
-            $token[] = explode(" ", $array);
-        }
+        $token[] = $this->multiexplode([PHP_EOL, "\n", ' ', '-', '|', '/'], $article_text);
 
         foreach($token as $tkn){
             foreach($tkn as $index => $t){ 
@@ -284,7 +284,8 @@ class ClassificationController extends Controller
         // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
 
         // return dd($result->toArray());
-        return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
+        // return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
+        return ['result' => $result->toArray(), 'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()];
         
     }    
 
@@ -640,21 +641,6 @@ class ClassificationController extends Controller
     public function singleResult(Request $request){
         $text = $request->articleText;
 
-    }
-
-    public function classification($word, $category){
-        // count(Wic) : Jumlah kata w dalam sebuah kelas
-        // DB::table('words')->join('articles', 'words.article_id', '=', 'articles.id')->select('words.*', 'articles.category_id')->where('word_term', '=', 'motor')->where('category_id', '=', '11')->count();
-
-        // Count(C) : Jumlah total kata pada sebuah kelas
-        // DB::table('words')->join('articles', 'words.article_id', '=', 'articles.id')->select('words.*', 'articles.category_id')->where('category_', '=', 'motor')->count();
-        
-        // |V| : Total kata semua kelas
-        // DB::table('words')->count();
-        // Rumus
-        // P(C|d) = hasil probabilitas di kalikan semua, dan diambil hasil paling besar
-        // P(Wi | C) = (count(Wi, C) + 1) / (count(C) + |V|)
-        
     }
 
 }
