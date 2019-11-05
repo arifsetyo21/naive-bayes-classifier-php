@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Url as UrlModels;
-use App\Libraries\simple_html_dom as simple_html_dom;
-use App\Models\Article as Article;
-use Illuminate\Support\Collection;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Models\Category;
 use Goutte\Client;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Jobs\ScrapArticleJob;
 use App\Imports\ArticleImport;
 use App\Exports\ArticleExport;
+use App\Models\Url as UrlModels;
+use App\Models\Article as Article;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use App\Jobs\PreprocessArticleJob;
+use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\ClassificationController;
+use App\Libraries\simple_html_dom as simple_html_dom;
 
 class ArticleController extends Controller
 {
@@ -39,20 +42,6 @@ class ArticleController extends Controller
       $launch = explode($delimiters[0], $ready);
       return  $launch;
    }
-
-   public function __set($property, $value){
-      if( property_exists($this, $property)){
-          $this->{$property} = $value;
-      }
-   }
-
-   public function __get($property){
-      if( property_exists($this, $property)){
-         return $this->{$property};
-      } else {
-         throw new \Exception('Property doesnt exist');
-      }
-   }
     
    public function index(){
       return Article::all();
@@ -70,11 +59,6 @@ class ArticleController extends Controller
 
    public function storeUrl(Request $request){
 
-      $validation = \Validator::make($request->all(), [
-         "url" => "required|unique:urls,url",
-         "category_id" => "required"
-      ])->validate();
-
       // list parameter for delimiter
       $delimiter = [PHP_EOL, ' ', ','];
       $category_id = $request->category_id;
@@ -87,9 +71,19 @@ class ArticleController extends Controller
       );
 
       $collection = $urls->map(function ($item, $key) use ($category_id){
+
+         $url["url"] = $item;
+         $url["category_id"] = $category_id;
+         // $item["url"] = $item;
+
+         $validation = \Validator::make($url, [
+            "url" => "required|unique:urls,url",
+            "category_id" => "required"
+         ])->validate();
+
          $id = \App\Models\Url::create([
             'domain' => 'kumparan.com',
-            'url' => $item,
+            'url' => $url["url"],
          ]);
 
          return collect ( [(object) [ 
@@ -99,10 +93,9 @@ class ArticleController extends Controller
          ]]); 
       });
 
-      // return dd($collection->values()->all());
-
       $collection->map(function ($item, $key) {
-         $this->scrapContentKumparan($item);
+         ScrapArticleJob::dispatch($item);
+         // $this->scrapContentKumparan($item);
       });
 
       Alert::success('Success Message', 'Url Berhasil Ditambahkan dan Discrap');
@@ -125,20 +118,9 @@ class ArticleController extends Controller
       });
 
       $collection->map(function ($item, $key) {
-         $this->scrapContentKumparan($item);
+         ScrapArticleJob::dispatch($item);
+         // $this->scrapContentKumparan($item);
       });
-   }
-
-   public function setUrlfromDB(){
-      $url_list = Url::all();
-      foreach ($url_list as $url) {
-         $this->url = $url->url;
-      }
-   }
-
-   public function scrap(){
-      $urls = \App\Models\Url::all();
-      return view('training.scrap', ['urls' => $urls]);
    }
 
    public function scrapContentKumparan(Collection $collection){
@@ -147,23 +129,11 @@ class ArticleController extends Controller
 
          $client = new Client();
          $crawler = $client->request('GET', trim($item->url));
-         // $simple_html_dom->load_file($item->url);
-
          $title = $crawler->filter('h1')->each(function ($node) {return $node->text();});
-         // $title = trim($simple_html_dom->find('h1', 0)->plaintext);
-
-         // $content = [];
-         
-         // foreach ($simple_html_dom->find('div[class=components__NormalWidth-sc-1ukv6c0-0 clLKZY]')
-         //          as $paragraph) {
-         //             array_push($content, trim($paragraph->plaintext));
-         //          }
 
          $content = $crawler->filter('div.clLKZY.components__NormalWidth-sc-1ukv6c0-0')->each(function ($node) {return $node->text();});
 
          unset($client);
-
-         // return dd($title, $content, $item);
 
          return $this->saveScrappedArticle([
             'title' => $title[0],
@@ -175,9 +145,9 @@ class ArticleController extends Controller
       });
    }
 
-   public function getTitle(){
-      return $this->title;
-   }
+   // public function getTitle(){
+   //    return $this->title;
+   // }
 
    // function for export as Excel
    public function export(){
@@ -240,11 +210,11 @@ class ArticleController extends Controller
 
       if($this->preprocess($articles, true)){
 
-         Alert::success('Preprocess Berhasil');
+         Alert::success('Preprocess Dimasukkan ke Antrian');
          return redirect()->back();
       } else {
 
-         Alert::error('Gagal Preprcessing');
+         Alert::error('Gagal Preprocessing');
          return redirect()->back();
       }
 
@@ -256,16 +226,10 @@ class ArticleController extends Controller
       if( $many == false ) {
 
          try {
-            
-            $this->preprocessArticle($id);
-            $this->stemmingWord();
-            $check_wordlist = $this->saveCleanedArticle($id);
 
-            if($check_wordlist == false){
-               throw new Exception($check_wordlist);
-            }
+            PreprocessArticleJob::dispatch($id);
             
-            Alert::success('Preprocess Sukses');
+            Alert::success('Preprocess Dimasukkan ke Antrian');
             return redirect()->back();
             
          } catch (Exception $e) {
@@ -281,9 +245,7 @@ class ArticleController extends Controller
 
             $id->map(function ($item, $key) {
 
-               $this->preprocessArticle($item->id);
-               $this->stemmingWord();
-               $this->saveCleanedArticle($item->id);
+               PreprocessArticleJob::dispatch($item->id);
 
             });
 
@@ -298,6 +260,7 @@ class ArticleController extends Controller
    }
 
    public function preprocessArticle($id){
+
         $article = \App\Models\Article::findOrFail($id);
         $this->article_id = $article->id;
         $content_article = \json_decode($article->content);
@@ -307,17 +270,17 @@ class ArticleController extends Controller
         
         foreach($content_article as $array) {
             $token[] = $tokenizer->tokenize($array);
-            // $token[] = explode(" ", $array);
         }
 
         foreach($token as $tkn){
             foreach($tkn as $index => $t){ 
-                $k = strtolower(preg_replace('/[^a-zA-Z ]/', '', $t));
-
-                if($k == ''){
+                $k = strtolower($t);
+                $word_token_url_removed = \preg_replace('(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})', '', $k);
+                $word_token_bracket_removed = \preg_replace('/\([^)]+\)/', '', $word_token_url_removed);
+                if($word_token_bracket_removed == ''){
                     unset($tkn[$index]);
                 } else {
-                    $string[] = $k;
+                    $string[] = $word_token_bracket_removed;
                 }
             }
         }
@@ -328,6 +291,7 @@ class ArticleController extends Controller
         $this->wordlist = \collect($string);
 
         $this->wordlist = $this->wordlist->filter(function($value, $key){
+                  $value = preg_replace('/[^a-zA-Z ]/', '', $value);
             return strlen($value) > 1;
         });
 

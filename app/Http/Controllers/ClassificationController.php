@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Goutte\Client;
+use App\Models\Article;
+use App\Models\TestData;
 use App\Models\Category;
+use App\Models\Dashboard;
+use Illuminate\Http\Request;
+use App\Jobs\ScrapArticleJob;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\ScrapArticleTestingJob;
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\ArticleController;
 
 class ClassificationController extends Controller
 {
@@ -20,15 +29,16 @@ class ClassificationController extends Controller
         $launch = explode($delimiters[0], $ready);
         return  $launch;
     }
+    
+    public function list(){
+        $articles = TestData::with('category')->paginate(10);
+        return view('classification.list', compact('articles'));
+    }
 
     public function index()
     {
-        return view('classification.index');
-    }
-
-    public function indexModified()
-    {
-        return view('classification.index-modified');
+        $categories = Category::all('id', 'name');
+        return view('classification.index', compact('categories'));
     }
 
     /**
@@ -38,7 +48,104 @@ class ClassificationController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('classification.create', compact('categories'));
+    }
+
+    public function storeDataTesting(Request $request){
+              // list parameter for delimiter
+        $delimiter = [PHP_EOL, ' ', ','];
+        $real_category_id = (int) $request->real_category_id;
+        
+        // separate string dbto array
+        $urls = (object) collect(
+            array_filter(
+                $this->multiexplode($delimiter, $request->url)
+            )
+        );
+
+        // return dd($urls);
+
+        $collection = $urls->map(function ($item, $key) use ($real_category_id){
+
+            $url["url"] = trim($item);
+            $url["real_category_id"] = $real_category_id;
+
+            // return dd($url);
+
+            $validation = \Validator::make($url, [
+                "url" => "required|unique:testing_datas,url",
+                "real_category_id" => "required"
+            ])->validate();
+
+            return collect ( [(object) [ 
+                'url' => $url["url"],
+                'real_category_id' => $url["real_category_id"]
+            ]]); 
+        });
+        // return dd($collection);
+
+        $collection->map(function ($item, $key) {
+            // $scrapArticleTestingJob = new ScrapArticleTestingJob($item);
+            ScrapArticleTestingJob::dispatch($item);
+        });
+
+        Alert::success('Sukses', 'Url Berhasil Ditambahkan di Antrian');
+        return redirect()->route('classification.index');
+     
+    }
+
+    public function scrapContentKumparan(Collection $collection){
+
+        // !FIXME 
+        $collection->map(function ($item, $key) {
+
+            $url = trim($item->url);
+
+            $client = new Client();
+            $crawler = $client->request('GET', $url);
+            $title = $crawler->filter('h1')->each(function ($node) {return $node->text();});
+    
+            $content = $crawler->filter('div.clLKZY.components__NormalWidth-sc-1ukv6c0-0')->each(function ($node) {return $node->text();});
+    
+            unset($client);
+    
+            return $this->saveScrappedArticle([
+                'title' => $title[0],
+                'content' => $content,
+                'url' => $item->url,
+                'real_category_id' => $item->real_category_id
+            ]);
+        });
+    }
+
+    // TODO Buat queue untuk klasifikasi
+    public function direct(Request $request){
+
+        $article_testing = TestData::findOrFail($request->id);
+        $request->request->add(['articleTitle' => $article_testing->title]);
+        $request->request->add(['real_category' => $article_testing->real_category_id]);
+        $request->request->add(['articleText' => $article_testing->content]);
+
+        try {
+            $this->store($request);
+            Alert::success('Data Selesai Diklasifikasi');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Alert::error($e->getMessage);
+            return redirect()->back();
+        }        
+    }
+
+    public function saveScrappedArticle(array $article){
+
+        $validation = \Validator::make($article,[
+            "url" => "unique:testing_datas,url"
+        ])->validate();
+        
+        $article['content'] = json_encode($article['content']);
+
+        return \App\Models\TestData::create($article)->id;
     }
 
     /**
@@ -52,6 +159,34 @@ class ClassificationController extends Controller
         
         $nbc = $this->nbc($request);
         $modified = $this->nbcModified($request);
+
+        unset($nbc['classprediction']['words']);
+        unset($modified['classprediction']['words']);
+
+        $document_count = new Article;
+
+        // return dd($nbc['result']['category']);
+        // return dd($nbc['classprediction']['category_id']);
+        // return dd($nbc['classprediction']);
+        try {
+            Dashboard::create([
+                'title' => json_encode($request->articleTitle),
+                'classification_nbc_result' => json_encode($nbc['classprediction']->toJson()),
+                'classification_modified_result' => json_encode($modified['classprediction']->toJson()),
+                'total_document' => $document_count->count(),
+                'total_term' => $nbc['result']['total_words'],
+                'real_category' => (int) $request->real_category,
+                'prediction_nbc' => $nbc['classprediction']['category_id'],
+                'prediction_modified' => $modified['classprediction']['category_id'],
+            ]); 
+
+            Alert::success('Berhasil DiKlasifikasi');
+            // return redirect()->back();
+
+        } catch (\Exception $e) {
+            Alert::error($e->getMessage());
+            return redirect()->back();
+        }
 
         return view('classification.result', ['result' => $nbc, 'result_modified' => $modified]);
     }
@@ -132,6 +267,7 @@ class ClassificationController extends Controller
 
             return [
                 'category' => $category->name,
+                'category_id' => $category->id,
                 'words' => $words->toArray(),
                 // Menampilkan jumlah kata pada sebuah kategori atau count(C)
                 'words_count_in_category' => $word_count_in_category,
@@ -146,7 +282,7 @@ class ClassificationController extends Controller
         ]);
 
         // return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
-        return ['result' => $result->toArray(), 'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()];
+        return collect(['result' => $result, 'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()])->recursive();
         
     }
 
@@ -157,6 +293,7 @@ class ClassificationController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    //  TODO Benahin klasifikasi yang modifikasi agar menyesuaikan data training yang 1/3 awal 
     public function nbcModified(Request $request)
     {
         // dd($request);
@@ -177,9 +314,6 @@ class ClassificationController extends Controller
         foreach($token as $tkn){
             foreach($tkn as $index => $t){ 
                 $word_token_url_removed = \preg_replace('(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})', '', $t);
-                // $word_token_tagar_removed = \preg_replace('(?:\s|^)#[A-Za-z0-9\-\.\_]+(?:\s|$)', '', $word_token_url_removed);
-                // $word_token_mention_removed = \preg_replace('/\s([@#][\w_-]+)/', '', $word_token_url_removed);
-                // $word_token_bracket_removed = \preg_match('\(([^)]+)\)', '', $word_token_url_removed);
                 $word_token_case_folded = strtolower(preg_replace('/[^a-zA-Z ]/', '', $word_token_url_removed));
                 if($word_token_case_folded == ''){
                     unset($tkn[$index]);
@@ -235,14 +369,12 @@ class ClassificationController extends Controller
                 // Hitung pertiga posisi kata
                 $pertiga = round(($this->wordlist->count() * (33.3/100)) + 1);
 
-                // dd($pertiga);
-
                 if( $key < $pertiga ) {
 
                     $word_count *= 2;
 
                     return [
-                        'word' => $word_stemmed,
+                        // 'word' => $word_stemmed,
                         'word_count' => $word_count,
                         'word_count_in_category' => $word_count_in_category,
                         'word_total' => $word_total,
@@ -262,6 +394,7 @@ class ClassificationController extends Controller
 
             return [
                 'category' => $category->name,
+                'category_id' => $category->id,
                 'words' => $words->toArray(),
                 // Menampilkan jumlah kata pada sebuah kategori atau count(C)
                 'words_count_in_category' => $word_count_in_category,
@@ -274,18 +407,12 @@ class ClassificationController extends Controller
             // Menampilkan total words atau |V|
             'total_words' => $word_total,
         ]);
-
-        // return dd($result);
-
-        // dd($result);
-
         // 'category' => $by_category->keyBy('category')->sortByDesc('nbc_value_per_class'),
 
         // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
 
-        // return dd($result->toArray());
         // return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
-        return ['result' => $result->toArray(), 'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()];
+        return collect(['result' => $result->toArray(), 'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()])->recursive();
         
     }    
 
@@ -601,7 +728,9 @@ class ClassificationController extends Controller
      */
     public function show($id)
     {
-        //
+        $article = TestData::findOrFail($id)->with('category')->first();
+
+        return view('classification.show', compact('article'));
     }
 
     /**
@@ -635,7 +764,14 @@ class ClassificationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $article = TestData::findOrFail($id)->delete();
+            Alert::success('Sukses Dihapus');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Alert::error($e->getMessage());
+            return redirect()->back();
+        }
     }
 
     public function singleResult(Request $request){

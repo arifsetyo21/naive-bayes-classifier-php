@@ -33,7 +33,7 @@
                      <div class="alert alert-danger">{{ session('error') }}</div>
                @else
                <label for="result_modified" class="inline">Prediksi Kategori</label><br>
-               <a href="#" class="btn btn-default disabled font-weight-bold" id="result_modified" role="button" aria-disabled="true">@kumparanoto</a>
+               <a href="#" class="btn btn-default disabled font-weight-bold" id="result_modified" role="button" aria-disabled="true">{{$result['classprediction']['category']}}</a>
 
                <table class="table">
                   <thead>
@@ -55,7 +55,7 @@
                </table>
                
                <p>Total Kata : {{ $result['result']['total_words']}}</p>
-                  @foreach ($result['result']['category'] as $key => $value)
+                  {{-- @foreach ($result['result']['category'] as $key => $value)
                   <h4 class="card-title">{{$key}} <span class="badge badge-info">{{$value['nbc_value_per_class']}}</span></h4><span style="font-size:13px"> Count(C) : {{$value['words_count_in_category']}}</span>
                   <div class="card-text"> 
                      @foreach ($value['words'] as $word)
@@ -66,7 +66,7 @@
                   </div>
                   <br>
                   <br>
-                  @endforeach
+                  @endforeach --}}
                @endif
             </div>
          </div>
@@ -88,7 +88,7 @@
                         <div class="alert alert-danger">{{ session('error') }}</div>
                   @else
                      <label for="result_modified" class="inline">Prediksi Kategori</label><br>
-                     <a href="#" class="btn btn-default disabled font-weight-bold" id="result_modified" role="button" aria-disabled="true">@kumparanoto</a>
+                     <a href="#" class="btn btn-default disabled font-weight-bold" id="result_modified" role="button" aria-disabled="true">{{$result_modified['classprediction']['category']}}</a>
 
                      <table class="table">
                         <thead>
@@ -110,7 +110,7 @@
                      </table>
                      
                      <p>Total Kata : {{ $result_modified['result']['total_words']}}</p>
-                     @foreach ($result_modified['result']['category'] as $key => $value)
+                     {{-- @foreach ($result_modified['result']['category'] as $key => $value)
                      <h4 class="card-title">{{$key}} <span class="badge badge-info">{{$value['nbc_value_per_class']}}</span></h4><span style="font-size:13px"> Count(C) : {{$value['words_count_in_category']}}</span>
                      <div class="card-text"> 
                         @foreach ($value['words'] as $word)
@@ -121,7 +121,7 @@
                      </div>
                      <br>
                      <br>
-                     @endforeach
+                     @endforeach --}}
                   @endif
                </div>
          </div>

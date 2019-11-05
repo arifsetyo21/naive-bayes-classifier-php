@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('title')
-    Training Page
+    Add Data Testing
 @endsection
 
-@section('header', 'Tambah Data Training')
+@section('header', 'Tambah Data Testing')
 
 @section('css')
 
@@ -15,46 +15,31 @@
        {{session('status')}}
    @endif
     <div class="row">
+      <div class="col-md-12 social-button-demo" style="height: 50px;">
+        <a href="{{route('classification.index')}}" class="float-left mr-1">
+            <button class="btn btn-fill btn-success">
+                  <i class="material-icons">
+                    note_add
+                  </i> Tambah Data Testing
+            </button>
+        </a>
+        <a href="{{route('classification.list')}}" class="float-left mr-1">
+            <button class="btn btn-fill btn-primary">
+              <i class="material-icons">
+                  list
+              </i> Daftar Data Testing
+            </button>
+        </a>
+      </div>
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title">Tambah Data Training</h4>
+            <h4 class="card-title">Tambah Data Testing</h4>
           </div>
           <div class="card-body">
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <form action="{{route('article.import')}}" method="post" enctype="multipart/form-data">
-                  @csrf
-                  <div class="form-group float-left mr-2">
-                    <label for="import_article">Choose File</label>
-                    <input type="file" class="form-control-file" name="import_article" id="import_article" placeholder="" aria-describedby="fileHelpId">
-                    {{-- <small id="fileHelpId" class="form-text text-muted">Help text</small> --}}
-                  </div>
-                  <button type="submit" class="btn btn-primary float-left">
-                      <i class="material-icons">
-                        cloud_upload
-                      </i>
-                      Upload Data Article 
-                  </button>
-                  <a class="btn btn-info" href="{{asset('contoh_data.xlsx')}}" download>Unduh Contoh</a>
-                  {{-- <div class="input-group mb-3">
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile02" name="import_article">
-                      <label class="custom-file-label form-control " for="inputGroupFile02" aria-describedby="inputGroupFileAddon02"></label>
-                    </div>
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-primary">
-                          Upload
-                      </button>
-                    </div>
-                  </div> --}}
-                </form>
-              </div>
-            </div>
-            <a href="http://"></a>
             <div class="row">
               <div class="col-md-12">
-                <form action="{{route('training.storeUrl')}}" method="post">
+                <form action="{{route('classification.storeDataTesting')}}" method="post">
                   @csrf
                   <div class="form-group">
                     <label for="url">Alamat Berita Kumparan</label>
@@ -63,7 +48,7 @@
                   </div>
                   <div class="form-group">
                     <label for="category">Kategori</label>
-                    <select class="form-control" data-style="btn btn-link" name="category_id" id="category">
+                    <select class="form-control" data-style="btn btn-link" name="real_category_id" id="category">
                       <option disabled selected value> -- pilih kategori -- </option>
                       @foreach ($categories as $category)
                       <option value="{{$category->id}}">{{$category->name}}</option>

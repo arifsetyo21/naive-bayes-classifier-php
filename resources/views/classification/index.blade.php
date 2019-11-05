@@ -20,6 +20,22 @@
 
 @section('content')
    <div class="row">
+      <div class="col-md-12 social-button-demo" style="height: 50px;">
+         <a href="{{route('classification.create')}}" class="float-left mr-1">
+            <button class="btn btn-fill btn-success">
+                  <i class="material-icons">
+                     note_add
+                  </i> Tambah Data Testing (URL)
+            </button>
+         </a>
+         <a href="{{route('classification.list')}}" class="float-left mr-1">
+            <button class="btn btn-fill btn-primary">
+               <i class="material-icons">
+                  list
+               </i> Daftar Data Testing
+            </button>
+         </a>
+      </div>
       <div class="col-md-12">
          <div class="card card-nav-tabs">
             <div class="card-header card-header-danger">
@@ -42,6 +58,14 @@
                      @error('articleText')
                         <div class="invalid-feedback">{{ $message }}</div>
                      @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="asli">Kategori Asli</label>
+                    <select class="form-control" name="real_category" id="asli">
+                       @foreach ($categories as $category)
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+                       @endforeach
+                    </select>
                   </div>
                </div>
                <button type="submit" class="btn btn-primary">Test</a>

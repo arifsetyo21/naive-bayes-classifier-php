@@ -18,4 +18,9 @@ class Category extends Model
     {
         return $this->hasManyThrough('App\Models\Word', 'App\Models\Article');
     }
+
+    public function testDatas(){
+        return $this->hasMany('App\Models\TestData', 'real_category_id');
+    }
+
 }

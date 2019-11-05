@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1.3",
+        "doctrine/dbal": "^2.10",
         "fabpot/goutte": "^3.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
@@ -16,7 +17,8 @@
         "maatwebsite/excel": "^3.1",
         "realrashid/sweet-alert": "^2.0",
         "sastrawi/sastrawi": "^1.2",
-        "sastrawi/tokenizer": "0.*"
+        "sastrawi/tokenizer": "0.*",
+        "werxe/laravel-collection-macros": "2.1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

@@ -18,7 +18,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title">Tambah Data Training</h4>
+            <h4 class="card-title">Tool Konversi Artikel ke JSON Array</h4>
           </div>
           <div class="card-body">
             <div class="row">

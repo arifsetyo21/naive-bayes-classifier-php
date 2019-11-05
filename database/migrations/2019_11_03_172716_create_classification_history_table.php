@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticlesTable extends Migration
+class CreateClassificationHistoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('classification_history', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('url_id')->nullable()->unsigned();
             $table->string('title');
-            $table->text('content');
-            $table->string('url');
+            $table->text('classfication_nbc_result');
+            $table->text('classfication_modified_result');
+            $table->text('total_document');
+            $table->text('total_term');
             $table->timestamps();
-
-            $table->foreign('url_id')->references('id')->on('urls')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -32,6 +31,6 @@ class CreateArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('classification_history');
     }
 }

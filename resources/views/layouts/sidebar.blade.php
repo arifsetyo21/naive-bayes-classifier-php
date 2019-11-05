@@ -17,13 +17,21 @@
    </div>
    <div class="sidebar-wrapper">
       <ul class="nav">
+         <li class="nav-item{{ $active == 'dashboard' ? ' active' : ''}}">
+            <a class="nav-link" href="{{route('dashboard.index')}}">
+               <i class="material-icons">
+                  dashboard
+               </i>
+               <p>Beranda</p>
+            </a>
+         </li>
          <li class="nav-item{{ $active == 'training' ? ' active' : ''}}">
-         <a class="nav-link" href="{{route('training.index')}}">
-            <i class="material-icons">
-               list
-            </i>
-            <p>Latih</p>
-         </a>
+            <a class="nav-link" href="{{route('training.index')}}">
+               <i class="material-icons">
+                  list
+               </i>
+               <p>Latih</p>
+            </a>
          </li>
          <li class="nav-item{{ $active == 'category' ? ' active' : ''}}">
             <a class="nav-link" href="{{route('category.index')}}">

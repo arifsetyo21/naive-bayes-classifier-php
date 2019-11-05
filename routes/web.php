@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('training.index');
+    // return view('welcome');
 });
 
 Route::group(['prefix' => '/training'], function () {
@@ -34,9 +35,17 @@ Route::group(['prefix' => 'article'], function () {
 });
 
 Route::group(['prefix' => 'classification'], function () {
+    Route::get('/', 'ClassificationController@index')->name('classification.index');
+    Route::post('/', 'ClassificationController@store')->name('classification.store');
+    Route::get('list', 'ClassificationController@list')->name('classification.list');
+    Route::post('direct-classification', 'ClassificationController@direct')->name('classification.direct');
     Route::get('nbc-modified', 'ClassificationController@indexModified')->name('classification.nbcModifiedIndex');
     Route::post('nbc', 'ClassificationController@nbc')->name('classification.nbc');
     Route::post('nbc-modified', 'ClassificationController@nbcModified')->name('classification.nbcModified');
+    Route::get('create', 'ClassificationController@create')->name('classification.create');
+    Route::post('store-testing', 'ClassificationController@storeDataTesting')->name('classification.storeDataTesting');
+    Route::delete('destroy/{id}', 'ClassificationController@destroy')->name('classification.destroy');
+    Route::get('show/{id}', 'ClassificationController@show')->name('classification.show');
 });
 
 Route::group(['prefix' => 'setting'], function () {
@@ -49,7 +58,13 @@ Route::group(['prefix' => 'tool'], function () {
     Route::post('/convert', 'ToolController@convertToArrayJson')->name('tool.convertjson');
 });
 
+Route::group(['prefix' => 'dashboard'], function() {
+    Route::get('/', 'DashboardController@index')->name('dashboard.index');
+    Route::get('/destroy/{id}', 'DashboardController@destroy')->name('dashboard.destroy');
+    Route::get('/detail/{id}', 'DashboardController@show')->name('dashboard.show');
+});
+
 Route::delete('/category/destroy/{id}', 'CategoryController@deletePermanent')->name('category.destroy-permenent');
 Route::resource('/category', 'CategoryController');
-Route::resource('/classification', 'ClassificationController');
+// Route::resource('/classification', 'ClassificationController');
 Route::resource('/training', 'TrainingController');

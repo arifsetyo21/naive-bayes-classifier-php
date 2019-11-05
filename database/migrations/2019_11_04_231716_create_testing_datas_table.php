@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticlesTable extends Migration
+class CreateTestingDatasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('testing_datas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('url_id')->nullable()->unsigned();
             $table->string('title');
-            $table->text('content');
             $table->string('url');
+            $table->text('content');
+            $table->integer('real_category_id')->unsigned();
+
             $table->timestamps();
 
-            $table->foreign('url_id')->references('id')->on('urls')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('real_category_id')->references('id')->on('categories');
         });
     }
 
@@ -32,6 +33,11 @@ class CreateArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles');
+        Schema::table('testing_datas', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);            
+        });
+
+        Schema::dropIfExists('testing_datas');
+
     }
 }
