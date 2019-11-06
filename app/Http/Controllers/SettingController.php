@@ -19,6 +19,8 @@ class SettingController extends Controller
 
         DB::table('articles')->delete();
         DB::table('urls')->delete();
+        DB::table('classification_history')->delete();
+        DB::table('testing_datas')->delete();
         
         Alert::success('Sukses Membersihkan Data Articles dan Urls');
         return redirect()->route('setting.index');

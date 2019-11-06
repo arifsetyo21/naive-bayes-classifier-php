@@ -24,12 +24,12 @@
                   </i> Tambah Data Testing 
             </button>
          </a>
-         <form action="{{route('training.preprocessAll')}}" method="post" onsubmit="return confirm('Preprocess Semua Data ?')">
+         <form action="{{route('dashboard.destroyAll')}}" method="post" onsubmit="return confirm('Hapus Semua Data ?')">
             @csrf
             <button type="submit" class="btn btn-fill btn-primary">
-               <i class="material-icons">
-                  file_copy
-               </i> Klasifikasi Semua
+                  <i class="material-icons">
+                     delete
+                  </i> Hapus Semua
             </button>
          </form>
          <br>
@@ -114,14 +114,101 @@
    <div class="row">
       <div class="col-md-12">
          <div class="card">
-               <div class="card-header card-header-text card-header-primary">
-               <div class="card-text">
-                  <h4 class="card-title">Here is the Text</h4>
-               </div>
-               </div>
-               <div class="card-body">
-         The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Barcelona...
-               </div>
+            <div class="card-header card-header-text card-header-primary">
+            <div class="card-text">
+               <h4 class="card-title">Confussion Matrix NBC</h4>
+            </div>
+            </div>
+            <div class="card-body">
+                  <center><span style="font-weight:bold">Kategori Asli</span></center>
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <td class="rotate text-center font-weight-bold">#</td>
+                        @foreach ($categories as $category)
+                           <td class="rotate font-weight-bold text-center">{{$category->name}}</td>
+                        @endforeach
+                        <td class="font-weight-bold text-center">Precision</td>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     @foreach ($categories as $category)
+                        <tr>
+                           <td class="text-center font-weight-bold">{{$category->name}}</td>
+                         @foreach ($categories2 as $category2)
+                              {{-- <td class="text-center">{{$category2->name}} {{$category->name}} {{$dashboard->where('real_category', $category2->id)->where('prediction_nbc', $category->id)->count()}}</td> --}}
+                              <td class="text-center">{{$dashboard->where('real_category', $category2->id)->where('prediction_nbc', $category->id)->count()}}</td>
+                         @endforeach
+                           @if ($dashboard->where('prediction_nbc', $category->id)->count())
+                              <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_nbc', $category->id)->count()/$dashboard->where('prediction_nbc', $category->id)->count())*100)}}%</td>
+                           @else
+                              <td class="text-center">{{$dashboard->where('prediction_nbc', $category->id)->count()}}</td>
+                           @endif
+                        </tr>
+                     @endforeach
+                  </tbody>
+                  <tfoot>
+                     <tr>
+                        <td class="text-center font-weight-bold">Recall</td>
+                        @foreach ($categories as $category)
+                           <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_nbc', $category->id)->count()/$dashboard->where('real_category', $category->id)->count())*100)}}%</td>
+                        @endforeach
+                        {{$total['modified']->sum()}}
+                     </tr>
+                  </tfoot>
+               </table>
+               <p class="text-center font-weight-bold">Akurasi : {{number_format($total['nbc']->sum()/$dashboard->count()*100, 2)}}%</p>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-12">
+         <div class="card">
+            <div class="card-header card-header-text card-header-primary">
+            <div class="card-text">
+               <h4 class="card-title">Confussion Matrix NBC Modified</h4>
+            </div>
+            </div>
+            <div class="card-body">
+                  <center><span style="font-weight:bold">Kategori Asli</span></center>
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <td class="rotate text-center font-weight-bold">#</td>
+                        @foreach ($categories as $category)
+                           <td class="rotate font-weight-bold text-center">{{$category->name}}</td>
+                        @endforeach
+                        <td class="text-center font-weight-bold">Precision</td>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     @foreach ($categories as $category)
+                        <tr>
+                           <td class="text-center font-weight-bold">{{$category->name}}</td>
+                           @foreach ($categories2 as $category2)
+                              {{-- <td>{{$category2->name}} {{$category->name}} {{$dashboard->where('real_category', $category2->id)->where('prediction_nbc', $category->id)->count()}}</td> --}}
+                              <td class="text-center">{{$dashboard->where('real_category', $category2->id)->where('prediction_nbc', $category->id)->count()}}</td>
+                           @endforeach
+                           @if ($dashboard->where('prediction_modified', $category->id)->count())
+                              <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_modified', $category->id)->count()/$dashboard->where('prediction_modified', $category->id)->count())*100)}}%</td>
+                           @else
+                              <td class="text-center">{{$dashboard->where('prediction_modified', $category->id)->count()}}</td>
+                           @endif
+                        </tr>
+                     @endforeach
+                  </tbody>
+                  <tfoot>
+                     <tr>
+                        <td class="font-weight-bold text-center">Recall</td>
+                        @foreach ($categories as $category)
+                           <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_modified', $category->id)->count()/$dashboard->where('real_category', $category->id)->count())*100)}}%</td>
+                        @endforeach
+                     </tr>
+                  </tfoot>
+               </table>
+               <p class="text-center font-weight-bold">Akurasi : {{number_format($total['modified']->sum()/$dashboard->count()*100, 2)}}%</p>
+            </div>
          </div>
       </div>
    </div>
@@ -130,6 +217,30 @@
 @section('css')
    table.table > tbody > tr > td > form  {
       display: inline-block;
+    }
+
+    th.rotate {
+      /* Something you can count on */
+      height: 140px;
+      white-space: nowrap;
+    }
+    
+    th.rotate > div {
+      transform: 
+        /* Magic Numbers */
+        translate(25px, 51px)
+        /* 45 is really 360 - 45 */
+        rotate(315deg);
+      width: 30px;
+    }
+    th.rotate > div > span {
+      border-bottom: 1px solid #ccc;
+      padding: 5px 10px;
+    }
+
+    .csstransforms & th.rotate {
+      height: 140px;
+      white-space: nowrap;
     }
 @endsection
 

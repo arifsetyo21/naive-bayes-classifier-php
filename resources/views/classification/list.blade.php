@@ -24,7 +24,7 @@
                   </i> Tambah Data Testing 
             </button>
          </a>
-         <form action="{{route('training.preprocessAll')}}" method="post" onsubmit="return confirm('Preprocess Semua Data ?')">
+         <form action="{{route('classification.all')}}" method="post" onsubmit="return confirm('Preprocess Semua Data ?')">
             @csrf
             <button type="submit" class="btn btn-fill btn-primary">
                <i class="material-icons">
@@ -118,6 +118,32 @@
                      </tfoot>
                   </table>
                </div>
+            </div>
+         </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+         <div class="card">
+            <div class="card-header card-header-warning">
+               <h4 class="card-title">Data Training Detail</h4>
+               <p class="card-category">Current Data Training Detail per Category</p>
+            </div>
+            <div class="card-body table-responsive">
+               <table class="table table-hover">
+               <thead class="text-warning">
+                  <th>No</th>
+                  <th>Nama Kategori</th>
+                  <th>Jumlah Dokumen</th>
+               </thead>
+               <tbody>
+                  @foreach ($data_testing_detail as $index => $detail)
+                  <tr>
+                     <td>{{$index}}</td>
+                     <td>{{$detail->name}}</td>
+                     <td class="text-center">{{$detail->test_datas_count}}</td>
+                  </tr>
+                  @endforeach
+               </tbody>
+               </table>
             </div>
          </div>
       </div>

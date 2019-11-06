@@ -33,40 +33,34 @@
                      <div class="alert alert-danger">{{ session('error') }}</div>
                @else
                <label for="result_modified" class="inline">Prediksi Kategori</label><br>
-               <a href="#" class="btn btn-default disabled font-weight-bold" id="result_modified" role="button" aria-disabled="true">{{$result['classprediction']['category']}}</a>
+               <a href="#" class="btn btn-primary disabled font-weight-bold" id="result_modified" role="button" aria-disabled="true">{{$result['classprediction']['category']}}</a>
 
                <table class="table">
                   <thead>
-                        <tr>
+                        <tr class="font-text-bold">
                            <th>Kategori</th>
-                           <th>Nilai</th>
-                           <th>Presisi</th>
+                           <th>Probabilitas</th>
+                           <th>Prioritas Kategori</th>
                         </tr>
                   </thead>
                   <tbody>
                      @foreach ($result['result']['category'] as $key => $value)
-                        <tr>
+                     <tr>
+                        @if ($result['classprediction']['category'] == $key)
+                           <td class="font-weight-bold">{{$key}}</td>
+                           <td class="font-weight-bold">{{$value['nbc_value_per_class']}}</td>
+                           <td class="font-weight-bold">{{$value['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class']}}</td>
+                        @else
                            <td>{{$key}}</td>
                            <td>{{$value['nbc_value_per_class']}}</td>
-                           <td>2013</td>
+                           <td>{{$value['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class']}}</td>
+                        @endif   
                         </tr>
                      @endforeach
                   </tbody>
                </table>
                
                <p>Total Kata : {{ $result['result']['total_words']}}</p>
-                  {{-- @foreach ($result['result']['category'] as $key => $value)
-                  <h4 class="card-title">{{$key}} <span class="badge badge-info">{{$value['nbc_value_per_class']}}</span></h4><span style="font-size:13px"> Count(C) : {{$value['words_count_in_category']}}</span>
-                  <div class="card-text"> 
-                     @foreach ($value['words'] as $word)
-                        <div class="btn btn-rose btn-sm">
-                           {{ $word['word']}} <span class="badge badge-pill badge-light">{{ "  " . $word['word_count']}}</span>
-                        </div>
-                     @endforeach
-                  </div>
-                  <br>
-                  <br>
-                  @endforeach --}}
                @endif
             </div>
          </div>
@@ -88,41 +82,56 @@
                         <div class="alert alert-danger">{{ session('error') }}</div>
                   @else
                      <label for="result_modified" class="inline">Prediksi Kategori</label><br>
-                     <a href="#" class="btn btn-default disabled font-weight-bold" id="result_modified" role="button" aria-disabled="true">{{$result_modified['classprediction']['category']}}</a>
-
+                     <a href="#" class="btn btn-primary disabled font-weight-bold" id="result_modified" role="button" aria-disabled="true">{{$result_modified['classprediction']['category']}}</a>
                      <table class="table">
                         <thead>
                               <tr>
                                  <th>Kategori</th>
-                                 <th>Nilai</th>
-                                 <th>Presisi</th>
+                                 <th>Probabilitas</th>
+                                 <th>Prioritas Kategori</th>
                               </tr>
                         </thead>
                         <tbody>
                            @foreach ($result_modified['result']['category'] as $key => $value)
                               <tr>
-                                 <td>{{$key}}</td>
-                                 <td>{{$value['nbc_value_per_class']}}</td>
-                                 <td>2013</td>
+                                 @if ($result_modified['classprediction']['category'] == $key)
+                                    <td class="font-weight-bold">{{$key}}</td>
+                                    <td class="font-weight-bold">{{$value['nbc_value_per_class']}}</td>
+                                    <td class="font-weight-bold">{{$value['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class']}}</td>
+                                 @else
+                                    <td>{{$key}}</td>
+                                    <td>{{$value['nbc_value_per_class']}}</td>
+                                    <td>{{$value['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class']}}</td>
+                                 @endif
                               </tr>
                            @endforeach
                         </tbody>
                      </table>
                      
                      <p>Total Kata : {{ $result_modified['result']['total_words']}}</p>
-                     {{-- @foreach ($result_modified['result']['category'] as $key => $value)
-                     <h4 class="card-title">{{$key}} <span class="badge badge-info">{{$value['nbc_value_per_class']}}</span></h4><span style="font-size:13px"> Count(C) : {{$value['words_count_in_category']}}</span>
+                  @endif
+               </div>
+         </div>
+      </div>
+      <div class="col-md-12">
+         <div class="card">
+               <div class="card-header card-header-text card-header-primary">
+               <div class="card-text">
+                  <h4 class="card-title">Daftar Kata</h4>
+               </div>
+               </div>
+               <div class="card-body">
+                     @foreach ($result['result']['category'] as $key => $value)
+                     <h4 class="card-title">{{$key}}</h4><span style="font-size:13px"> Count(C) : {{$value['words_count_in_category']}}</span>
                      <div class="card-text"> 
                         @foreach ($value['words'] as $word)
                            <div class="btn btn-rose btn-sm">
-                                 {{ $word['word']}} <span class="badge badge-pill badge-light">{{ "  " . $word['word_count']}}</span>
+                              {{ $word['word']}} <span class="badge badge-pill badge-light">{{ "  " . $word['word_count']}}</span>
                            </div>
                         @endforeach
                      </div>
                      <br>
-                     <br>
-                     @endforeach --}}
-                  @endif
+                     @endforeach
                </div>
          </div>
       </div>

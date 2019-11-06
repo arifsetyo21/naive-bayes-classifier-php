@@ -34,12 +34,6 @@ class PreprocessArticleJob implements ShouldQueue
     public function handle()
     {
         $articleController = new ArticleController;
-        
-        // if($this->id == null) {
-        //     $articleController->preprocessAll();
-        // } else {
-        //     $articleController->preprocess($this->id);
-        // }
 
         $articleController->preprocessArticle($this->id);
         $articleController->stemmingWord();

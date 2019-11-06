@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Dashboard;
 use Illuminate\Http\Request;
 use App\Jobs\ScrapArticleJob;
+use App\Jobs\ClassificationJob;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\ScrapArticleTestingJob;
@@ -31,8 +32,11 @@ class ClassificationController extends Controller
     }
     
     public function list(){
+
+        $data_testing_detail = Category::withCount(['testDatas'])->get();
+
         $articles = TestData::with('category')->paginate(10);
-        return view('classification.list', compact('articles'));
+        return view('classification.list', compact('articles', 'data_testing_detail'));
     }
 
     public function index()
@@ -119,6 +123,33 @@ class ClassificationController extends Controller
         });
     }
 
+    public function classificationAll(Request $request){
+
+         // Select article whereNotIn words, that mean, select article where not preprocess
+        $articles = TestData::all();
+
+        try {
+            $articles->map(function ($item, $key) use ($request) {
+                
+                $request->replace(['articleTitle' => $item->title]);
+                $request->replace(['real_category' => $item->real_category_id]);
+                $request->replace(['articleText' => $item->content]);
+                
+                ClassificationJob::dispatch($request);
+                // if($this->direct($item)){
+                    
+                // }
+            });
+            Alert::success('Preprocess Dimasukkan ke Antrian');
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+            Alert::error('Gagal Preprocessing', $e->getMessage());
+            return redirect()->back();
+        }
+
+    }
+
     // TODO Buat queue untuk klasifikasi
     public function direct(Request $request){
 
@@ -128,11 +159,13 @@ class ClassificationController extends Controller
         $request->request->add(['articleText' => $article_testing->content]);
 
         try {
+            // ClassificationJob::dispatch($request->all());
             $this->store($request);
             Alert::success('Data Selesai Diklasifikasi');
+            $article_testing->delete();
             return redirect()->back();
         } catch (\Exception $e) {
-            Alert::error($e->getMessage);
+            Alert::error($e->getMessage());
             return redirect()->back();
         }        
     }
@@ -165,9 +198,6 @@ class ClassificationController extends Controller
 
         $document_count = new Article;
 
-        // return dd($nbc['result']['category']);
-        // return dd($nbc['classprediction']['category_id']);
-        // return dd($nbc['classprediction']);
         try {
             Dashboard::create([
                 'title' => json_encode($request->articleTitle),
@@ -181,13 +211,13 @@ class ClassificationController extends Controller
             ]); 
 
             Alert::success('Berhasil DiKlasifikasi');
-            // return redirect()->back();
 
         } catch (\Exception $e) {
             Alert::error($e->getMessage());
             return redirect()->back();
         }
 
+        // return dd($nbc);
         return view('classification.result', ['result' => $nbc, 'result_modified' => $modified]);
     }
 
@@ -281,8 +311,12 @@ class ClassificationController extends Controller
             'total_words' => $word_total,
         ]);
 
+        // return dd($result['category']->keyBy('category')->sortBy('nbc_value_per_class')->first());
         // return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
-        return collect(['result' => $result, 'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()])->recursive();
+        return collect(['result' => $result, 
+                        'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(),
+                        'lower_value' => $result['category']->keyBy('category')->sortBy('nbc_value_per_class')->first()
+                        ])->recursive();
         
     }
 
@@ -297,20 +331,16 @@ class ClassificationController extends Controller
     public function nbcModified(Request $request)
     {
         // dd($request);
-
         $messages = [
             'required' => ':attribute harus diisi.',
         ];
-
         \Validator::make($request->all(), [
             "articleTitle" => "required",
             "articleText" => "required",
         ], $messages)->validate();
-
         $article_text = $request->articleText;
         $article_title = $request->articleTitle;
         $token[] = $this->multiexplode([PHP_EOL, "\n", ' ', '-', '|', '/'], $article_text);
-
         foreach($token as $tkn){
             foreach($tkn as $index => $t){ 
                 $word_token_url_removed = \preg_replace('(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})', '', $t);
@@ -320,59 +350,44 @@ class ClassificationController extends Controller
                 } else {
                     $string[] = $word_token_case_folded;
                 }
-
             }
         }
-
         $stopwords_list = collect(explode("\n", file_get_contents(\public_path('stopword_list_tala.txt'))));
         // stopword wordlist : http://hikaruyuuki.lecture.ub.ac.id/kamus-kata-dasar-dan-stopword-list-bahasa-indonesia/
-
         try {
             $this->wordlist = \collect($string);
         } catch (\Exception $e) {
             return back()->withError('hindari penggunaan link, tagar (#), et (@)');
         }
-
         $this->wordlist = $this->wordlist->filter(function($value, $key){
             return strlen($value) > 1;
         });
-
         foreach($this->wordlist as $index => $s) {
             if(\in_array($s, $stopwords_list->toArray())) :
                 unset($this->wordlist[$index]);
             endif;
         }
-
         $category_list = Category::all();
-
         $word_total = DB::table('words')->count();
-
         // Lakukan perulangan untuk collection $category_list
         $by_category = $category_list->map( function($category) use ($word_total){
-
             // Ambil total kata pada sebuah kelas
             $word_count_in_category = DB::table('words')
                                     ->join('articles', 'words.article_id', '=', 'articles.id')
                                     ->select('words.*', 'articles.category_id')
                                     ->where('category_id', '=', $category->id)->count();
-
             // Lakukan perulangan untuk collection di $this->wordlist
             $words = $this->wordlist->map(function ($value, $key) use ($category, $word_total, $word_count_in_category){
                 $word_stemmed = app('stemm')->stem($value);
-
                 $word_count = DB::table('words')
                             ->join('articles', 'words.article_id', '=', 'articles.id')
                             ->select('words.*', 'articles.category_id')
                             ->where('word_term', '=', $word_stemmed)
                             ->where('category_id', '=', $category->id)->count();
-
                 // Hitung pertiga posisi kata
                 $pertiga = round(($this->wordlist->count() * (33.3/100)) + 1);
-
                 if( $key < $pertiga ) {
-
                     $word_count *= 2;
-
                     return [
                         // 'word' => $word_stemmed,
                         'word_count' => $word_count,
@@ -381,7 +396,6 @@ class ClassificationController extends Controller
                         'nbc_value_per_word' => log(($word_count + 1) / ($word_count_in_category + $word_total), 10)
                     ];
                 } else {
-
                     return [
                         'word' => $word_stemmed,
                         'word_count' => $word_count,
@@ -391,7 +405,6 @@ class ClassificationController extends Controller
                     ];
                 }
             });
-
             return [
                 'category' => $category->name,
                 'category_id' => $category->id,
@@ -401,25 +414,24 @@ class ClassificationController extends Controller
                 'nbc_value_per_class' => $words->sum('nbc_value_per_word')
             ];
         });
-
         $result = collect([
             'category' => $by_category->keyBy('category')->sortBy('category'),
             // Menampilkan total words atau |V|
             'total_words' => $word_total,
         ]);
         // 'category' => $by_category->keyBy('category')->sortByDesc('nbc_value_per_class'),
-
         // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
-
         // return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
-        return collect(['result' => $result->toArray(), 'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()])->recursive();
+        return collect([
+            'result' => $result->toArray(), 
+            'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(),
+            'lower_value' => $result['category']->keyBy('category')->sortBy('nbc_value_per_class')->first()
+            ])->recursive();
         
     }    
 
-
-    // public function storeModified(Request $request)
+    // public function nbcModified(Request $request)
     // {
-    //     // dd($request);
 
     //     $messages = [
     //         'required' => ':attribute harus diisi.',
@@ -474,115 +486,115 @@ class ClassificationController extends Controller
 
     //     $this->word_total = DB::table('words')->count();
 
-    //     // Mengubah nilai $word_total dan $word_count_in_category
+        // Mengubah nilai $word_total dan $word_count_in_category
 
-    //     $this->category_list = $this->category_list->map( function ($category) {
+        // $this->category_list = $this->category_list->map( function ($category) {
 
-    //         // return dd($category);
-    //         $count = DB::table('words')
-    //                 ->join('articles', 'words.article_id', '=', 'articles.id')
-    //                 ->select('words.*', 'articles.category_id')
-    //                 ->where('category_id', '=', $category->id)->count();
+        //     // return dd($category);
+        //     $count = DB::table('words')
+        //             ->join('articles', 'words.article_id', '=', 'articles.id')
+        //             ->select('words.*', 'articles.category_id')
+        //             ->where('category_id', '=', $category->id)->count();
 
-    //         $category->total_word_in_category = $count;
+        //     $category->total_word_in_category = $count;
 
-    //         // return dd($category);
+        //     // return dd($category);
             
-    //         $words2 = $this->wordlist->map( function ($value, $key) use ($category) {
+        //     $words2 = $this->wordlist->map( function ($value, $key) use ($category) {
                 
-    //             // stemm word
-    //             $word_stemmed = app('stemm')->stem($value);
+        //         // stemm word
+        //         $word_stemmed = app('stemm')->stem($value);
 
-    //             // return dd($this->wordlist->count());
+        //         // return dd($this->wordlist->count());
                 
-    //             $word = \App\Models\Word::where('word_term', '=', $word_stemmed)
-    //                                     ->with(['article' => function ($query) use ($category) {
-    //                                         $query->where('category_id', '=', $category->id);
-    //                                     }])->get(); 
+        //         $word = \App\Models\Word::where('word_term', '=', $word_stemmed)
+        //                                 ->with(['article' => function ($query) use ($category) {
+        //                                     $query->where('category_id', '=', $category->id);
+        //                                 }])->get(); 
 
-    //             $word_count = $word->map(function ($item) use ($category, $key){
+        //         $word_count = $word->map(function ($item) use ($category, $key){
 
-    //                 // cek apakah ada word_term yang cocok
-    //                 if(\App\Models\Article::where('id', '=', $item->article_id)
-    //                                     ->with('words')
-    //                                     ->where('category_id', '=', $category->id)
-    //                                     ->withCount('words')
-    //                                     ->first() == null) {                            
+        //             // cek apakah ada word_term yang cocok
+        //             if(\App\Models\Article::where('id', '=', $item->article_id)
+        //                                 ->with('words')
+        //                                 ->where('category_id', '=', $category->id)
+        //                                 ->withCount('words')
+        //                                 ->first() == null) {                            
 
-    //                     // apabila tidak ada kembalikan null
-    //                     return null;
+        //                 // apabila tidak ada kembalikan null
+        //                 return null;
 
-    //                 } else {
+        //             } else {
 
-    //                     // $total_word_in_article = \App\Models\Article::where('id', '=', $item->article_id)
-    //                     //                                             ->with('words')
-    //                     //                                             ->where('category_id', '=', $category->id)
-    //                     //                                             ->withCount('words')
-    //                     //                                             ->first()->words_count;
+        //                 // $total_word_in_article = \App\Models\Article::where('id', '=', $item->article_id)
+        //                 //                                             ->with('words')
+        //                 //                                             ->where('category_id', '=', $category->id)
+        //                 //                                             ->withCount('words')
+        //                 //                                             ->first()->words_count;
 
-    //                     // $id_word_start_in_article = \App\Models\Article::where('id', '=', $item->article_id)
-    //                     //                                                 ->with('words')
-    //                     //                                                 ->where('category_id', '=', $category->id)
-    //                     //                                                 ->withCount('words')
-    //                     //                                                 ->first()
-    //                     //                                                 ->words->first()->id;
+        //                 // $id_word_start_in_article = \App\Models\Article::where('id', '=', $item->article_id)
+        //                 //                                                 ->with('words')
+        //                 //                                                 ->where('category_id', '=', $category->id)
+        //                 //                                                 ->withCount('words')
+        //                 //                                                 ->first()
+        //                 //                                                 ->words->first()->id;
 
-    //                     // $percentile_under_33 = round($total_word_in_article * (33.33/100)) + $id_word_start_in_article;
+        //                 // $percentile_under_33 = round($total_word_in_article * (33.33/100)) + $id_word_start_in_article;
 
-    //                     $percentile_under_33 = round($this->wordlist->count() * (33.33/100)) + 1;
+        //                 $percentile_under_33 = round($this->wordlist->count() * (33.33/100)) + 1;
 
-    //                     // return dd($percentile_under_33, $key);
+        //                 // return dd($percentile_under_33, $key);
 
-    //                     if( $key < ($percentile_under_33 - 2) ) {
+        //                 if( $key < ($percentile_under_33 - 2) ) {
                             
-    //                         // $this->word_total += 1;
+        //                     // $this->word_total += 1;
 
-    //                         return [
-    //                             'word_total' => 1,
-    //                             'word_count_in_category' => 2,
-    //                             'value' => 2,
-    //                         ];
-    //                     } else {
-    //                         return [
-    //                             'value' => 1,
-    //                             'word_count_in_category' => 1
-    //                         ]; 
-    //                     }
-    //                 }
-    //             });
+        //                     return [
+        //                         'word_total' => 1,
+        //                         'word_count_in_category' => 2,
+        //                         'value' => 2,
+        //                     ];
+        //                 } else {
+        //                     return [
+        //                         'value' => 1,
+        //                         'word_count_in_category' => 1
+        //                     ]; 
+        //                 }
+        //             }
+        //         });
 
-    //                 // return dd($word_count->sum('value'));
-    //                 // return dd($word_count->sum() - $word_count_original);
-    //                 // $different_word_count = ($word_count->sum() - $word_count_original);
-    //                 // $word_count_in_category = $word_count_in_category + $different_word_count;
-    //                 // $word_total = $word_total + $different_word_count;
+        //             // return dd($word_count->sum('value'));
+        //             // return dd($word_count->sum() - $word_count_original);
+        //             // $different_word_count = ($word_count->sum() - $word_count_original);
+        //             // $word_count_in_category = $word_count_in_category + $different_word_count;
+        //             // $word_total = $word_total + $different_word_count;
                 
-    //                 // return dd($word_count);
-    //                 // $category->total_word_in_category + ($word_count->sum('word_count_in_category') - $word_count->count())
-    //                 $extra_word = ($word_count->sum('word_count_in_category') != 0) ? $word_count->sum('word_count_in_category') - $word_count->count() : 0;
-    //                 $total_word_category = ($word_count->sum('word_count_in_category') != 0) ? $category->total_word_in_category + $extra_word : $category->total_word_in_category;
-    //             // return dd($word_count);
-    //             // FIXME Masih ada duplicate word_count_in_category di perhitungan
-    //             return [
-    //                 'word' =>  $word_stemmed,
-    //                 'word_count' => $word_count->sum('value'),
-    //                 'total_word_category' => $total_word_category,
-    //                 'real_word_in_category' => $category->total_word_in_category,
-    //                 'extra_word' => $extra_word
-    //                 // 'plus_word' => $word_count->
-    //                 // 'nbc_value_per_word' => log(($word_count->sum() + 1) / ($word_count_in_category + $word_total))
-    //             ];
-    //         });
-    //             // return dd($words2);
-    //         return [
-    //             'id' => $category->id,
-    //             'name' => $category->name,
-    //             'words' => $words2
-    //         ];
+        //             // return dd($word_count);
+        //             // $category->total_word_in_category + ($word_count->sum('word_count_in_category') - $word_count->count())
+        //             $extra_word = ($word_count->sum('word_count_in_category') != 0) ? $word_count->sum('word_count_in_category') - $word_count->count() : 0;
+        //             $total_word_category = ($word_count->sum('word_count_in_category') != 0) ? $category->total_word_in_category + $extra_word : $category->total_word_in_category;
+        //         // return dd($word_count);
+        //         // FIXME Masih ada duplicate word_count_in_category di perhitungan
+        //         return [
+        //             'word' =>  $word_stemmed,
+        //             'word_count' => $word_count->sum('value'),
+        //             'total_word_category' => $total_word_category,
+        //             'real_word_in_category' => $category->total_word_in_category,
+        //             'extra_word' => $extra_word
+        //             // 'plus_word' => $word_count->
+        //             // 'nbc_value_per_word' => log(($word_count->sum() + 1) / ($word_count_in_category + $word_total))
+        //         ];
+        //     });
+        //         // return dd($words2);
+        //     return [
+        //         'id' => $category->id,
+        //         'name' => $category->name,
+        //         'words' => $words2
+        //     ];
                 
-    //     });
+        // });
 
-    //     // return dd($this->category_list, $this->word_total );
+        // return dd($this->category_list, $this->word_total );
         
     //     $word_total = $this->word_total;
 
@@ -679,9 +691,11 @@ class ClassificationController extends Controller
     //                     'word' => $word_stemmed,
     //                     'word_count' => $word_count->sum('value'),
     //                     // 'plus_word' => $word_count->
-    //                     'nbc_value_per_word' => log(($word_count->sum('value') + 1) / ($category->words->min('real_word_in_category') + $category->words->sum('extra_word')) + $word_total, 10),
+    //                     // 'nbc_value_per_word' => log(($word_count->sum('value') + 1) / ($category->words->min('real_word_in_category') + $category->words->sum('extra_word')) + $word_total, 10),
+    //                     'nbc_value_per_word' => log(($word_count->sum('value') + 1) / ($category->words->min('real_word_in_category')) + $word_total, 10),
     //                     'total_word' => $word_total,
-    //                     'total_word_in_category' =>  $category->words->min('real_word_in_category') + $category->words->sum('extra_word')
+    //                     // 'total_word_in_category' =>  $category->words->min('real_word_in_category') + $category->words->sum('extra_word')
+    //                     'total_word_in_category' =>  $category->words->min('real_word_in_category')
     //                 ];
     //             });
 

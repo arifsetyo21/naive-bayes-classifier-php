@@ -46,6 +46,7 @@ Route::group(['prefix' => 'classification'], function () {
     Route::post('store-testing', 'ClassificationController@storeDataTesting')->name('classification.storeDataTesting');
     Route::delete('destroy/{id}', 'ClassificationController@destroy')->name('classification.destroy');
     Route::get('show/{id}', 'ClassificationController@show')->name('classification.show');
+    Route::post('classification-all', 'ClassificationController@classificationAll')->name('classification.all');
 });
 
 Route::group(['prefix' => 'setting'], function () {
@@ -62,9 +63,9 @@ Route::group(['prefix' => 'dashboard'], function() {
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
     Route::get('/destroy/{id}', 'DashboardController@destroy')->name('dashboard.destroy');
     Route::get('/detail/{id}', 'DashboardController@show')->name('dashboard.show');
+    Route::post('/destroy-all', 'DashboardController@destroyAll')->name('dashboard.destroyAll');
 });
 
 Route::delete('/category/destroy/{id}', 'CategoryController@deletePermanent')->name('category.destroy-permenent');
 Route::resource('/category', 'CategoryController');
-// Route::resource('/classification', 'ClassificationController');
 Route::resource('/training', 'TrainingController');
