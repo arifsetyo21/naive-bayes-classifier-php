@@ -24,6 +24,13 @@
                   </i> Tambah Data Testing 
             </button>
          </a>
+         <a onclick="return confirm('Hapus Semua Data ?')" href="{{route('classification.deleteAll')}}" class="float-left mr-1">
+            <button class="btn btn-fill btn-danger">
+                  <i class="material-icons">
+                     delete
+                  </i> Hapus Data Testing 
+            </button>
+         </a>
          <form action="{{route('classification.all')}}" method="post" onsubmit="return confirm('Preprocess Semua Data ?')">
             @csrf
             <button type="submit" class="btn btn-fill btn-primary">
@@ -75,7 +82,7 @@
                                  <button class="btn btn-primary btn-sm" type="submit">Klasifikasi</button>
                               </form>
                               <a class="" href="{{route('classification.show', ['id' => $item->id])}}">
-                                 <button type="button" class="btn btn-primary btn-sm">Detail</button>
+                                 <button type="button" class="btn btn-info btn-sm">Detail</button>
                               </a>
                               <form class="" action="{{route('classification.destroy', ['id' => $item->id])}}" method="post">
                                  @csrf

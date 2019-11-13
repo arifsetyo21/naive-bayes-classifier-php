@@ -22,7 +22,7 @@
                <i class="material-icons">
                   dashboard
                </i>
-               <p>Beranda</p>
+               <p>Ringkasan</p>
             </a>
          </li>
          <li class="nav-item{{ $active == 'training' ? ' active' : ''}}">
@@ -49,14 +49,14 @@
                <p>Klasifikasi</p>
             </a>
          </li>
-         <li class="nav-item{{ $active == 'tool' ? ' active' : ''}}">
+         {{-- <li class="nav-item{{ $active == 'tool' ? ' active' : ''}}">
             <a class="nav-link" href="{{route('tool.index')}}">
                   <i class="material-icons">
                      build
                   </i>
                <p>Tools</p>
             </a>
-         </li>
+         </li> --}}
          <li class="nav-item{{ $active == 'setting' ? ' active' : ''}}">
             <a class="nav-link" href="{{route('setting.index')}}">
                   <i class="material-icons">

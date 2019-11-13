@@ -151,13 +151,20 @@
                      <tr>
                         <td class="text-center font-weight-bold">Recall</td>
                         @foreach ($categories as $category)
-                           <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_nbc', $category->id)->count()/$dashboard->where('real_category', $category->id)->count())*100)}}%</td>
+                           @if ($dashboard->where('real_category', $category->id)->count())
+                              <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_nbc', $category->id)->count()/$dashboard->where('real_category', $category->id)->count())*100)}}%</td>
+                           @else
+                              <td class="text-center">0</td>
+                           @endif
                         @endforeach
-                        {{$total['modified']->sum()}}
                      </tr>
                   </tfoot>
                </table>
-               <p class="text-center font-weight-bold">Akurasi : {{number_format($total['nbc']->sum()/$dashboard->count()*100, 2)}}%</p>
+               @if ($dashboard->count())
+                  <p class="text-center font-weight-bold">Akurasi : {{number_format($total['nbc']->sum()/$dashboard->count()*100, 2)}}%</p>
+               @else
+                   <p class="text-center font-weight-bold">Akurasi : 0</p>
+               @endif
             </div>
          </div>
       </div>
@@ -193,7 +200,7 @@
                            @if ($dashboard->where('prediction_modified', $category->id)->count())
                               <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_modified', $category->id)->count()/$dashboard->where('prediction_modified', $category->id)->count())*100)}}%</td>
                            @else
-                              <td class="text-center">{{$dashboard->where('prediction_modified', $category->id)->count()}}</td>
+                              <td class="text-center">0</td>
                            @endif
                         </tr>
                      @endforeach
@@ -202,12 +209,20 @@
                      <tr>
                         <td class="font-weight-bold text-center">Recall</td>
                         @foreach ($categories as $category)
-                           <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_modified', $category->id)->count()/$dashboard->where('real_category', $category->id)->count())*100)}}%</td>
+                           @if ($dashboard->where('real_category', $category->id)->count())
+                              <td class="text-center">{{round(($dashboard->where('real_category', $category->id)->where('prediction_modified', $category->id)->count()/$dashboard->where('real_category', $category->id)->count())*100)}}%</td>
+                           @else
+                              <td class="text-center">0</td>
+                           @endif
                         @endforeach
                      </tr>
                   </tfoot>
                </table>
-               <p class="text-center font-weight-bold">Akurasi : {{number_format($total['modified']->sum()/$dashboard->count()*100, 2)}}%</p>
+               @if ($dashboard->count())
+                  <p class="text-center font-weight-bold">Akurasi : {{number_format($total['modified']->sum()/$dashboard->count()*100, 2)}}%</p>
+               @else
+                   <p class="text-center font-weight-bold">Akurasi : 0</p>
+               @endif
             </div>
          </div>
       </div>

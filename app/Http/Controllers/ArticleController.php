@@ -144,11 +144,7 @@ class ArticleController extends Controller
 
       });
    }
-
-   // public function getTitle(){
-   //    return $this->title;
-   // }
-
+   
    // function for export as Excel
    public function export(){
       $file_name = "articles_training_(".date("Y-m-d",time()). ").xlsx";
@@ -172,9 +168,7 @@ class ArticleController extends Controller
       try {
          $this->saveUrl($articles);
          // $this->scrapContentKumparan($articles);
-
          Alert::success('URL Berhasil Ditambahkan dan Discrap');
-         
          return redirect()->back();
 
       } catch (\Exception $e) {
@@ -224,35 +218,22 @@ class ArticleController extends Controller
 
       // for single preprocess 
       if( $many == false ) {
-
          try {
-
             PreprocessArticleJob::dispatch($id);
-            
             Alert::success('Preprocess Dimasukkan ke Antrian');
             return redirect()->back();
-            
          } catch (Exception $e) {
-            
             Alert::error('Gagal Preprcessing', $e->getMessage());
             return redirect()->back();
          }
-      
          // for many preprocess
       } else {
-         
          try {
-
             $id->map(function ($item, $key) {
-
                PreprocessArticleJob::dispatch($item->id);
-
             });
-
             return true;
-
          } catch (\Exception $e) {
-
             Alert::error('Gagal Melakukan Preprocess', $e->getMessage());
             return redirect()->back();
          }

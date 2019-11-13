@@ -101,7 +101,6 @@ class ClassificationController extends Controller
 
     public function scrapContentKumparan(Collection $collection){
 
-        // !FIXME 
         $collection->map(function ($item, $key) {
 
             $url = trim($item->url);
@@ -124,21 +123,43 @@ class ClassificationController extends Controller
     }
 
     public function classificationAll(Request $request){
+        // return dd($request);
+        // return dd($request instanceof Collection);
 
-         // Select article whereNotIn words, that mean, select article where not preprocess
+        // Select article whereNotIn words, that mean, select article where not preprocess
         $articles = TestData::all();
 
+        // foreach ($articles as $key => $article) {
+        //     // return dd($article);
+        //     try {
+        //         ClassificationJob::dispatch($article);
+        //         Alert::success('Preprocess Dimasukkan ke Antrian');
+        //         return redirect()->back();
+        //     } catch (\Exception $e) {
+        //         Alert::error('Gagal Preprocessing', $e->getMessage());
+        //         return redirect()->back();
+        //     }
+        // }
+
         try {
-            $articles->map(function ($item, $key) use ($request) {
-                
-                $request->replace(['articleTitle' => $item->title]);
-                $request->replace(['real_category' => $item->real_category_id]);
-                $request->replace(['articleText' => $item->content]);
-                
-                ClassificationJob::dispatch($request);
+            $articles->map(function ($item, $key) use ($request){
+                // $id = $item->id;
+                $request->replace(['requestUri' => 'oke']);
+                $request->request->add(['id' => $item->id]);
+                $request->request->add(['articleTitle' => $item->title]);
+                $request->request->add(['real_category' => $item->real_category_id]);
+                $request->request->add(['articleText' => $item->content]);
+
+
+                // return dd($request);
+                // return dd((object) $item->id);
+                // $this->direct((object) $item->id);
+                return ClassificationJob::dispatch($request->all());
                 // if($this->direct($item)){
                     
                 // }
+                // Alert::success('oke');
+                // return redirect()->back();
             });
             Alert::success('Preprocess Dimasukkan ke Antrian');
             return redirect()->back();
@@ -150,10 +171,20 @@ class ClassificationController extends Controller
 
     }
 
+    public function classificationSingle($id){
+        $request = new \Illuminate\Http\Request();
+
+        $request->setMethod('POST');
+        $request->request->add(['id' => $id]);
+        $this->direct($request);
+        return direct()->back();
+    }
+
     // TODO Buat queue untuk klasifikasi
     public function direct(Request $request){
 
         $article_testing = TestData::findOrFail($request->id);
+        // return dd($article_testing);
         $request->request->add(['articleTitle' => $article_testing->title]);
         $request->request->add(['real_category' => $article_testing->real_category_id]);
         $request->request->add(['articleText' => $article_testing->content]);
@@ -193,6 +224,10 @@ class ClassificationController extends Controller
         $nbc = $this->nbc($request);
         $modified = $this->nbcModified($request);
 
+        // return dd($nbc['lower_value']);
+
+        unset($nbc['lower_value']['words']);
+        unset($modified['lower_value']['words']);
         unset($nbc['classprediction']['words']);
         unset($modified['classprediction']['words']);
 
@@ -201,8 +236,8 @@ class ClassificationController extends Controller
         try {
             Dashboard::create([
                 'title' => json_encode($request->articleTitle),
-                'classification_nbc_result' => json_encode($nbc['classprediction']->toJson()),
-                'classification_modified_result' => json_encode($modified['classprediction']->toJson()),
+                'classification_nbc_result' => json_encode($nbc['classprediction']->push($nbc['lower_value'])->toJson()),
+                'classification_modified_result' => json_encode($modified['classprediction']->push($modified['lower_value'])->toJson()),
                 'total_document' => $document_count->count(),
                 'total_term' => $nbc['result']['total_words'],
                 'real_category' => (int) $request->real_category,
@@ -211,7 +246,7 @@ class ClassificationController extends Controller
             ]); 
 
             Alert::success('Berhasil DiKlasifikasi');
-
+            // return redirect()->back();
         } catch (\Exception $e) {
             Alert::error($e->getMessage());
             return redirect()->back();
@@ -784,6 +819,18 @@ class ClassificationController extends Controller
             return redirect()->back();
         } catch (\Exception $e) {
             Alert::error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function deleteAll(){
+        try {
+            DB::table('testing_datas')->delete();
+            Alert::success('Sukses Menghapus Semua');
+
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Alert::error('Gagal', $e->getMessage());
             return redirect()->back();
         }
     }

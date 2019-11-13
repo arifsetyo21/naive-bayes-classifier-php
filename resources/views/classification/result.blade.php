@@ -40,7 +40,7 @@
                         <tr class="font-text-bold">
                            <th>Kategori</th>
                            <th>Probabilitas</th>
-                           <th>Prioritas Kategori</th>
+                           <th>Nilai Confidence</th>
                         </tr>
                   </thead>
                   <tbody>
@@ -49,11 +49,15 @@
                         @if ($result['classprediction']['category'] == $key)
                            <td class="font-weight-bold">{{$key}}</td>
                            <td class="font-weight-bold">{{$value['nbc_value_per_class']}}</td>
-                           <td class="font-weight-bold">{{$value['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class']}}</td>
+                           <td class="font-weight-bold text-center">{{(($value['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class']) / ($result['classprediction']['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class']))*100}} %</td>
                         @else
                            <td>{{$key}}</td>
                            <td>{{$value['nbc_value_per_class']}}</td>
-                           <td>{{$value['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class']}}</td>
+                           @if (($value['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class']) != 0)
+                              <td class="text-center">{{round((($value['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class'])/($result['classprediction']['nbc_value_per_class'] - $result['lower_value']['nbc_value_per_class']))*100, 2)}} %</td> 
+                           @else
+                              <td class="text-center">0 %</td>
+                           @endif
                         @endif   
                         </tr>
                      @endforeach
@@ -88,7 +92,7 @@
                               <tr>
                                  <th>Kategori</th>
                                  <th>Probabilitas</th>
-                                 <th>Prioritas Kategori</th>
+                                 <th>Nilai Confidence</th>
                               </tr>
                         </thead>
                         <tbody>
@@ -97,11 +101,15 @@
                                  @if ($result_modified['classprediction']['category'] == $key)
                                     <td class="font-weight-bold">{{$key}}</td>
                                     <td class="font-weight-bold">{{$value['nbc_value_per_class']}}</td>
-                                    <td class="font-weight-bold">{{$value['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class']}}</td>
+                                    <td class="font-weight-bold text-center">{{(($value['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class']) / ($result_modified['classprediction']['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class']))*100}} %</td>
                                  @else
                                     <td>{{$key}}</td>
                                     <td>{{$value['nbc_value_per_class']}}</td>
-                                    <td>{{$value['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class']}}</td>
+                                    @if (($value['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class']) != 0)
+                                       <td class="text-center">{{round((($value['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class'])/($result_modified['classprediction']['nbc_value_per_class'] - $result_modified['lower_value']['nbc_value_per_class']))*100, 2)}} %</td> 
+                                    @else
+                                       <td class="text-center">0 %</td>
+                                    @endif
                                  @endif
                               </tr>
                            @endforeach

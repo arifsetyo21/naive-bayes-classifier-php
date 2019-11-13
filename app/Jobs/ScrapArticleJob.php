@@ -14,15 +14,14 @@ class ScrapArticleJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $collection;
-    private $fromController;
+    protected $collection;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Collection $collection)
+    public function __construct($collection)
     {
         $this->collection = $collection;
     }
@@ -35,7 +34,6 @@ class ScrapArticleJob implements ShouldQueue
     public function handle()
     {
         $ArticleController = new ArticleController;
-
         $ArticleController->scrapContentKumparan($this->collection);
     }
 }

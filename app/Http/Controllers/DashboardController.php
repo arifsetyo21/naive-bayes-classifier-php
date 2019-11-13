@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Dashboard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
-
 class DashboardController extends Controller
 {
     public function index(){
@@ -42,7 +42,7 @@ class DashboardController extends Controller
     public function destroyAll(){
 
         DB::table('classification_history')->delete();
-        Alert::success('Sukses Membersihkan Data Articles dan Urls');
+        Alert::success('Sukses', 'Membersihkan Data Hasil Training');
         return redirect()->route('dashboard.index');
     }
 

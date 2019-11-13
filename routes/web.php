@@ -47,6 +47,7 @@ Route::group(['prefix' => 'classification'], function () {
     Route::delete('destroy/{id}', 'ClassificationController@destroy')->name('classification.destroy');
     Route::get('show/{id}', 'ClassificationController@show')->name('classification.show');
     Route::post('classification-all', 'ClassificationController@classificationAll')->name('classification.all');
+    Route::get('delete-all', 'ClassificationController@deleteAll')->name('classification.deleteAll');
 });
 
 Route::group(['prefix' => 'setting'], function () {
