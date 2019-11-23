@@ -55,6 +55,8 @@
         @include('layouts.footer')
       </div>
     </div>
+    <!-- Chart.js -->
+    <script src="{{asset('js/chart.js')}}"></script>
     <script>
       @yield('js')
     </script>

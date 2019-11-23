@@ -227,6 +227,21 @@
          </div>
       </div>
    </div>
+   <div class="row">
+      <div class="col-md-12">
+            <div class="card">
+               <div class="card-header card-header-text card-header-primary">
+                  <div class="card-text">
+                     <h4 class="card-title">Perbandingan Performa</h4>
+                  </div>
+                  </div>
+                  <div class="card-body">
+                     <canvas id="myChart"></canvas>
+                     <p class="text-center font-weight-bold">Rata Rata Selisih Performa : {{$avg_performance}} detik</p>
+                  </div>
+            </div>
+      </div>
+   </div>
 @endsection
 
 @section('css')
@@ -261,4 +276,50 @@
 
 @section('js')
    $('div.alert').delay(3000).slideUp(300);
+
+   $(document).ready(function() {
+      
+      var labels = '';
+
+      $.ajax({
+         type: "GET",
+         url: '/dashboard/article-list-chart',
+         success: function (data) {
+            labels = data;
+         }, 
+         // for assign data to global variable
+         async: false
+      });
+
+      var ctx = document.getElementById('myChart').getContext('2d');
+
+      var chart = new Chart(ctx, {
+         // The type of chart we want to create
+         type: 'horizontalBar',
+
+         // The data for our dataset
+         {{-- // [{{implode($labels, ',')}}] --}}
+         data: {
+            labels: labels,
+            datasets: [
+               {  
+                  label: 'NBC',
+                  backgroundColor: 'rgb(255, 99, 132)',
+                  borderColor: 'rgb(255, 99, 132)',
+                  data: [{{$nbc}}]
+               },
+               {
+                  label: 'NBC Modified',
+                  backgroundColor: 'blue',
+                  borderColor: 'blue',
+                  data: [{{$modified}}]
+               }
+            ]
+         },
+
+         // Configuration options go here
+         options: {}
+      });
+   });
+
 @endsection

@@ -63,8 +63,8 @@
                      @endforeach
                   </tbody>
                </table>
-               
                <p>Total Kata : {{ $result['result']['total_words']}}</p>
+               <p>Total Waktu : {{ $result['total_time']}}</p>
                @endif
             </div>
          </div>
@@ -115,13 +115,13 @@
                            @endforeach
                         </tbody>
                      </table>
-                     
                      <p>Total Kata : {{ $result_modified['result']['total_words']}}</p>
+                     <p>Total Waktu : {{ $result_modified['total_time']}}</p>
                   @endif
                </div>
          </div>
       </div>
-      <div class="col-md-12">
+      {{-- <div class="col-md-12">
          <div class="card">
                <div class="card-header card-header-text card-header-primary">
                <div class="card-text">
@@ -142,6 +142,6 @@
                      @endforeach
                </div>
          </div>
-      </div>
+      </div> --}}
    </div>
 @endsection

@@ -65,6 +65,7 @@ Route::group(['prefix' => 'dashboard'], function() {
     Route::get('/destroy/{id}', 'DashboardController@destroy')->name('dashboard.destroy');
     Route::get('/detail/{id}', 'DashboardController@show')->name('dashboard.show');
     Route::post('/destroy-all', 'DashboardController@destroyAll')->name('dashboard.destroyAll');
+    Route::get('/article-list-chart', 'DashboardController@articleListChart')->name('dashboard.list-chart');
 });
 
 Route::delete('/category/destroy/{id}', 'CategoryController@deletePermanent')->name('category.destroy-permenent');

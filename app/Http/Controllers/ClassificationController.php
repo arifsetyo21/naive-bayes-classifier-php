@@ -13,6 +13,7 @@ use App\Jobs\ClassificationJob;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\ScrapArticleTestingJob;
+use Illuminate\Support\Facades\Redis;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\ArticleController;
 
@@ -221,8 +222,8 @@ class ClassificationController extends Controller
 
     public function store(Request $request){
         
-        $nbc = $this->nbc($request);
         $modified = $this->nbcModified($request);
+        $nbc = $this->nbc($request);
 
         // return dd($nbc['lower_value']);
 
@@ -234,7 +235,7 @@ class ClassificationController extends Controller
         $document_count = new Article;
 
         try {
-            Dashboard::create([
+            $dashboard = Dashboard::create([
                 'title' => json_encode($request->articleTitle),
                 'classification_nbc_result' => json_encode($nbc['classprediction']->push($nbc['lower_value'])->toJson()),
                 'classification_modified_result' => json_encode($modified['classprediction']->push($modified['lower_value'])->toJson()),
@@ -245,6 +246,9 @@ class ClassificationController extends Controller
                 'prediction_modified' => $modified['classprediction']['category_id'],
             ]); 
 
+            Redis::hSet('nbc', $dashboard->id, $nbc['total_time']);
+            Redis::hSet('modified', $dashboard->id, $modified['total_time']);
+
             Alert::success('Berhasil DiKlasifikasi');
             // return redirect()->back();
         } catch (\Exception $e) {
@@ -252,12 +256,17 @@ class ClassificationController extends Controller
             return redirect()->back();
         }
 
-        // return dd($nbc);
+        // return dd($nbc, $modified);
         return view('classification.result', ['result' => $nbc, 'result_modified' => $modified]);
     }
 
     public function nbc(Request $request)
     {
+
+        $mtime = microtime(); 
+        $mtime = explode(" ",$mtime); 
+        $mtime = $mtime[1] + $mtime[0]; 
+        $starttime = $mtime; 
 
         $messages = [
             'required' => ':attribute harus diisi.',
@@ -346,11 +355,19 @@ class ClassificationController extends Controller
             'total_words' => $word_total,
         ]);
 
+        $mtime = microtime(); 
+        $mtime = explode(" ",$mtime); 
+        $mtime = $mtime[1] + $mtime[0]; 
+        $endtime = $mtime; 
+        $totaltime = ($endtime - $starttime); 
+        // echo "This page was created in ".$totaltime." seconds"; 
+
         // return dd($result['category']->keyBy('category')->sortBy('nbc_value_per_class')->first());
         // return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
         return collect(['result' => $result, 
                         'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(),
-                        'lower_value' => $result['category']->keyBy('category')->sortBy('nbc_value_per_class')->first()
+                        'lower_value' => $result['category']->keyBy('category')->sortBy('nbc_value_per_class')->first(),
+                        'total_time' => $totaltime
                         ])->recursive();
         
     }
@@ -365,6 +382,11 @@ class ClassificationController extends Controller
     //  TODO Benahin klasifikasi yang modifikasi agar menyesuaikan data training yang 1/3 awal 
     public function nbcModified(Request $request)
     {
+        $mtime = microtime(); 
+        $mtime = explode(" ",$mtime); 
+        $mtime = $mtime[1] + $mtime[0]; 
+        $starttime = $mtime; 
+
         // dd($request);
         $messages = [
             'required' => ':attribute harus diisi.',
@@ -440,6 +462,7 @@ class ClassificationController extends Controller
                     ];
                 }
             });
+        
             return [
                 'category' => $category->name,
                 'category_id' => $category->id,
@@ -449,18 +472,28 @@ class ClassificationController extends Controller
                 'nbc_value_per_class' => $words->sum('nbc_value_per_word')
             ];
         });
+        
         $result = collect([
             'category' => $by_category->keyBy('category')->sortBy('category'),
             // Menampilkan total words atau |V|
             'total_words' => $word_total,
         ]);
+
+        $mtime = microtime(); 
+        $mtime = explode(" ",$mtime); 
+        $mtime = $mtime[1] + $mtime[0]; 
+        $endtime = $mtime; 
+        $totaltime = ($endtime - $starttime); 
+        // echo "This page was created in ".$totaltime." seconds"; 
+
         // 'category' => $by_category->keyBy('category')->sortByDesc('nbc_value_per_class'),
         // return dd($result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(), $result);
         // return view('classification.result', ['result' => $result->toArray(), 'class_prediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first()]);
         return collect([
             'result' => $result->toArray(), 
             'classprediction' => $result['category']->keyBy('category')->sortByDesc('nbc_value_per_class')->first(),
-            'lower_value' => $result['category']->keyBy('category')->sortBy('nbc_value_per_class')->first()
+            'lower_value' => $result['category']->keyBy('category')->sortBy('nbc_value_per_class')->first(),
+            'total_time' => $totaltime
             ])->recursive();
         
     }    
